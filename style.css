@@ -343,3 +343,136 @@
       nav { padding: 0 1rem; }
       .hero-stats { gap: 1.5rem; }
     }
+    
+.flip-phrase {
+  display: inline;
+  white-space: nowrap;
+}
+
+.flip-word {
+  display: inline-grid;
+  grid-template-areas: "word";
+  width: 7ch;
+  line-height: inherit;
+  vertical-align: baseline;
+  font-style: normal;
+  perspective: 900px;
+  animation: flipWordWidth 4s infinite;
+}
+
+.flip-word span {
+  grid-area: word;
+  display: inline-block;
+  line-height: inherit;
+  white-space: nowrap;
+  transform-origin: 50% 55%;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.flip-dot {
+  display: inline;
+  line-height: inherit;
+  vertical-align: baseline;
+  color: var(--text);
+}
+
+.flip-word-a {
+  color: var(--android-color);
+  animation: flipWordA 4s infinite;
+}
+
+.flip-word-b {
+  color: var(--accent2);
+  animation: flipWordB 4s infinite;
+}
+
+@keyframes flipWordWidth {
+  0%, 45% {
+    width: 6ch;
+  }
+
+  50%, 95% {
+    width: 4ch;
+  }
+
+  100% {
+    width: 6ch;
+  }
+}
+
+@keyframes flipWordA {
+  0%, 42% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+
+  50%, 92% {
+    opacity: 0;
+    transform: rotateX(180deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotateX(360deg);
+  }
+}
+
+@keyframes flipWordB {
+  0%, 42% {
+    opacity: 0;
+    transform: rotateX(-180deg);
+  }
+
+  50%, 92% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotateX(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-word,
+  .flip-word-a,
+  .flip-word-b {
+    animation: none;
+  }
+
+  .flip-word {
+    width: 7ch;
+  }
+
+  .flip-word-b {
+    display: none;
+  }
+}
+
+.terminal-body > div {
+  opacity: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transform: none;
+
+  clip-path: inset(0 100% 0 0);
+
+  transition:
+    opacity 40ms linear,
+    clip-path var(--terminal-reveal-ms, 220ms) steps(var(--terminal-chars, 24), end);
+}
+
+.terminal-body > div.is-visible {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+}
+
+.terminal-body > .terminal-gap {
+  min-height: 1.8em;
+}
+
+.terminal-body.terminal-reset > div {
+  transition: none;
+}

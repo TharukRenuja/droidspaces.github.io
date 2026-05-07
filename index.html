@@ -26,7 +26,17 @@
   <div class="hero-inner">
     <div>
       <div class="hero-badge"><span></span>v6.0 · Open Source</div>
-      <h1>Linux containers<br>on <em>Android</em>.</h1>
+      <h1>
+        Linux containers<br>
+        on
+        <span class="flip-phrase">
+          <em class="flip-word" aria-label="Android or Linux">
+            <span class="flip-word-a" aria-hidden="true">Android</span>
+            <span class="flip-word-b" aria-hidden="true">Linux</span>
+          </em>
+          <span class="flip-dot" aria-hidden="true">.</span>
+        </span>
+      </h1>
       <p class="hero-desc">
         True namespace isolation - not chroot, not emulation. Run systemd, OpenRC, or any init system as PID 1. Single ~300KB binary. Zero dependencies.
       </p>
@@ -57,7 +67,7 @@
         <div class="t-dim">  → IPC namespace:  isolated</div>
         <div class="t-dim">  → Cgroup namespace: isolated (Cgroupv2)</div>
         <div class="t-dim">  → Init:  Systemd</div>        
-        <br>
+        <div class="terminal-gap" aria-hidden="true"></div>
         <div><span class="t-prompt"># </span><span class="t-white">droidspaces -n Ubuntu enter</span></div>
         <div><span class="t-blue">root@Ubuntu</span><span class="t-dim">:~# </span><span class="t-white">whoami</span></div>
         <div class="t-dim">root</div>
@@ -226,5 +236,91 @@
   <p>&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644">ravindu644</a></p>
 </footer>
 
+  <script>
+(() => {
+  const terminalBody = document.querySelector(".terminal-body");
+
+  if (!terminalBody) {
+    return;
+  }
+
+  const lines = Array.from(terminalBody.children)
+    .filter((child) => child.tagName === "DIV");
+
+  if (lines.length === 0) {
+    return;
+  }
+
+  const stepMs = 100;
+  const holdMs = 3000;
+  const restartPauseMs = 250;
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (prefersReducedMotion) {
+    lines.forEach((line) => {
+      line.classList.add("is-visible");
+    });
+    return;
+  }
+
+  let timers = [];
+
+  function clearTimers() {
+    timers.forEach((timer) => {
+      clearTimeout(timer);
+    });
+
+    timers = [];
+  }
+
+  function hideAllLines() {
+    lines.forEach((line) => {
+      line.classList.remove("is-visible");
+    });
+  }
+
+  function revealLines() {
+    clearTimers();
+    hideAllLines();
+
+    lines.forEach((line, index) => {
+      const timer = setTimeout(() => {
+        line.classList.add("is-visible");
+      }, index * stepMs);
+
+      timers.push(timer);
+    });
+
+    const lastRevealAt = (lines.length - 1) * stepMs;
+    const clearAt = lastRevealAt + holdMs;
+
+    const clearTimer = setTimeout(() => {
+      hideAllLines();
+
+      const restartTimer = setTimeout(() => {
+        revealLines();
+      }, restartPauseMs);
+
+      timers.push(restartTimer);
+    }, clearAt);
+
+    timers.push(clearTimer);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      clearTimers();
+      return;
+    }
+
+    revealLines();
+  });
+
+  revealLines();
+})();
+</script>
 </body>
 </html>
