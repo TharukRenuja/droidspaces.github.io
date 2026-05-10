@@ -1,339 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Lightweight portable Linux containerization for Android and Linux">
-  <title>Droidspaces — Linux Containers for Android</title>
+  <title>Droidspaces: Linux Containers for Android</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="/favicon.ico">
 </head>
+
 <body>
 
-<nav>
-  <a href="/" class="nav-logo">droidspaces</a>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a hidden href="docs/">Docs</a></li>
-    <li><a href="https://github.com/ravindu644/Droidspaces-OSS">GitHub</a></li>
-    <li><a href="https://t.me/Droidspaces">Telegram</a></li>
-  </ul>
-</nav>
+  <nav>
+    <a href="/" class="nav-logo">droidspaces</a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a hidden href="docs/">Docs</a></li>
+      <li><a href="https://github.com/ravindu644/Droidspaces-OSS">GitHub</a></li>
+      <li><a href="https://t.me/Droidspaces">Telegram</a></li>
+    </ul>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div>
-      <div class="hero-badge"><span></span>v6.0 · Open Source</div>
-      <h1>
-        Linux containers<br>
-        on
-        <span class="flip-phrase">
-          <em class="flip-word" aria-label="Android or Linux">
-            <span class="flip-word-a" aria-hidden="true">Android</span>
-            <span class="flip-word-b" aria-hidden="true">Linux</span>
-          </em>
-          <span class="flip-dot" aria-hidden="true">.</span>
-        </span>
-      </h1>
-      <p class="hero-desc">
-        True namespace isolation - not chroot, not emulation. Run systemd, OpenRC, or any init system as PID 1. Single ~300KB binary. Zero dependencies.
-      </p>
-      <div class="hero-cta">
-        <a href="https://github.com/ravindu644/Droidspaces-OSS/releases" class="btn btn-primary">↓ Download</a>
-        <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Installation-Android.md" class="btn btn-ghost">Get Started →</a>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><span></span>v6.0 · Open Source</div>
+        <h1>
+          Linux containers<br>
+          on
+          <span class="flip-phrase">
+            <em class="flip-word" aria-label="Android or Linux">
+              <span class="flip-word-a" aria-hidden="true">Android</span>
+              <span class="flip-word-b" aria-hidden="true">Linux</span>
+            </em>
+            <span class="flip-dot" aria-hidden="true">.</span>
+          </span>
+        </h1>
+        <p class="hero-desc">
+          True namespace isolation - not chroot, not emulation. Run systemd, OpenRC, or any init system as PID 1. Single
+          ~300KB binary. Zero dependencies.
+        </p>
+        <div class="hero-cta">
+          <a href="https://github.com/ravindu644/Droidspaces-OSS/releases" class="btn btn-primary">↓ Download</a>
+          <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Installation-Android.md"
+            class="btn btn-ghost">Get Started →</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            Website still under construction. Stay tuned.
+          </div>
+        </div>
       </div>
-      <div class="hero-stats">
-        <div>
-          Website still under construction. Stay tuned.
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="terminal-title">droidspaces : root@android</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt"># </span><span class="t-white">droidspaces -n Ubuntu -i rootfs.img start</span>
+          </div>
+          <div class="t-green">✓ Container 'Ubuntu' started</div>
+          <div class="t-dim"> → Android-specific optimizations: Applied</div>
+          <div class="t-dim"> → PID namespace: isolated</div>
+          <div class="t-dim"> → MNT namespace: isolated</div>
+          <div class="t-dim"> → UTS namespace: isolated</div>
+          <div class="t-dim"> → IPC namespace: isolated</div>
+          <div class="t-dim"> → Cgroup namespace: isolated (Cgroupv2)</div>
+          <div class="t-dim"> → Init: Systemd</div>
+          <div class="terminal-gap" aria-hidden="true"></div>
+          <div><span class="t-prompt"># </span><span class="t-white">droidspaces -n Ubuntu enter</span></div>
+          <div><span class="t-blue">root@Ubuntu</span><span class="t-dim">:~# </span><span class="t-white">whoami</span>
+          </div>
+          <div class="t-dim">root</div>
         </div>
       </div>
     </div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="terminal-title">droidspaces — root@android</span>
-      </div>
-      <div class="terminal-body">
-        <div><span class="t-prompt"># </span><span class="t-white">droidspaces -n Ubuntu -i rootfs.img start</span></div>
-        <div class="t-green">✓ Container 'Ubuntu' started</div>
-        <div class="t-dim">  → Android-specific optimizations: Applied</div>
-        <div class="t-dim">  → PID namespace:  isolated</div>
-        <div class="t-dim">  → MNT namespace:  isolated</div>
-        <div class="t-dim">  → UTS namespace:  isolated</div>
-        <div class="t-dim">  → IPC namespace:  isolated</div>
-        <div class="t-dim">  → Cgroup namespace: isolated (Cgroupv2)</div>
-        <div class="t-dim">  → Init:  Systemd</div>        
-        <div class="terminal-gap" aria-hidden="true"></div>
-        <div><span class="t-prompt"># </span><span class="t-white">droidspaces -n Ubuntu enter</span></div>
-        <div><span class="t-blue">root@Ubuntu</span><span class="t-dim">:~# </span><span class="t-white">whoami</span></div>
-        <div class="t-dim">root</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-label">Why Droidspaces</div>
+      <h2>Everything LXC does.<br>On your phone.</h2>
+      <p class="section-desc">Full Linux namespace isolation without Android-specific quirks, chroot hacks or emulation
+        overhead. Runs natively on Android with deep system integration.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="8.25 10.35 31.5 27.3" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M36.85 30.16H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 34.97c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z"
+                fill="currentColor" />
+              <path
+                d="M36.85 21.00H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 25.82c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z"
+                fill="currentColor" />
+              <path
+                d="M36.84 11.74H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 16.57c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z"
+                fill="currentColor" />
+            </svg>
+          </div>
+          <h3>Real Containers</h3>
+          <p>Full PID, MNT, UTS, IPC, and Cgroup namespace isolation. Not a chroot. Not emulation.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <h3>Zero Dependencies</h3>
+          <p>Single ~300KB static binary compiled against musl. Runs on any Linux kernel 3.10+.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="3 7 18 9" fill="currentColor">
+              <path
+                d="M17.62,9.39L19.07,8.04C19.34,7.79 19.34,7.39 19.09,7.12C18.84,6.85 18.44,6.85 18.17,7.1L16.47,8.68C15.2,7.9 13.68,7.44 12.06,7.44C10.44,7.44 8.92,7.9 7.65,8.68L5.95,7.1C5.68,6.85 5.28,6.85 5.03,7.12C4.78,7.39 4.78,7.79 5.05,8.04L6.5,9.39C4.54,10.84 3.25,13.1 3.25,15.68H20.75C20.75,13.1 19.5,10.84 17.62,9.39ZM8.75,12.5C8.34,12.5 8,12.16 8,11.75C8,11.34 8.34,11 8.75,11C9.16,11 9.5,11.34 9.5,11.75C9.5,12.16 9.16,12.5 8.75,12.5ZM15.25,12.5C14.84,12.5 14.5,12.16 14.5,11.75C14.5,11.34 14.84,11 15.25,11C15.66,11 16,11.34 16,11.75C16,12.16 15.66,12.5 15.25,12.5Z" />
+            </svg>
+          </div>
+          <h3>Native Android</h3>
+          <p>init.rc integration, 2 userspace daemons for unkillable containers with automatic Android quirks handling.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+              <line x1="9" y1="1" x2="9" y2="4"></line>
+              <line x1="15" y1="1" x2="15" y2="4"></line>
+              <line x1="9" y1="20" x2="9" y2="23"></line>
+              <line x1="15" y1="20" x2="15" y2="23"></line>
+              <line x1="20" y1="9" x2="23" y2="9"></line>
+              <line x1="20" y1="15" x2="23" y2="15"></line>
+              <line x1="1" y1="9" x2="4" y2="9"></line>
+              <line x1="1" y1="15" x2="4" y2="15"></line>
+            </svg>
+          </div>
+          <h3>Hardware Access & GPU Acceleration</h3>
+          <p>Native Adreno Turnip GPU access on Android, AMD/Intel on Linux, Also give access to USB, Block devices,
+            Sensors, serial devices to your container, with a single toggle.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
+            </svg>
+          </div>
+          <h3>Network Isolation</h3>
+          <p>Host, NAT/Veth pairs (DHCP + DNS server + port forwarding), or air-gapped. Actually works on Android.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </div>
+          <h3>Material 3 App</h3>
+          <p>Manage unlimited containers, built-in terminal, systemd service control - all in one app.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- FEATURES -->
-<section class="section" id="features">
-  <div class="container">
-    <div class="section-label">Why Droidspaces</div>
-    <h2>Everything LXC does.<br>On your phone.</h2>
-    <p class="section-desc">Full Linux namespace isolation without Android-specific quirks, chroot hacks or emulation overhead. Runs natively on Android with deep system integration.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="8.25 10.35 31.5 27.3" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M36.85 30.16H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 34.97c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/><path d="M36.85 21.00H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 25.82c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/><path d="M36.84 11.74H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 16.57c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/></svg>
-        </div>
-        <h3>Real Containers</h3>
-        <p>Full PID, MNT, UTS, IPC, and Cgroup namespace isolation. Not a chroot. Not emulation.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-        </div>
-        <h3>Zero Dependencies</h3>
-        <p>Single ~300KB static binary compiled against musl. Runs on any Linux kernel 3.10+.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="3 7 18 9" fill="currentColor"><path d="M17.62,9.39L19.07,8.04C19.34,7.79 19.34,7.39 19.09,7.12C18.84,6.85 18.44,6.85 18.17,7.1L16.47,8.68C15.2,7.9 13.68,7.44 12.06,7.44C10.44,7.44 8.92,7.9 7.65,8.68L5.95,7.1C5.68,6.85 5.28,6.85 5.03,7.12C4.78,7.39 4.78,7.79 5.05,8.04L6.5,9.39C4.54,10.84 3.25,13.1 3.25,15.68H20.75C20.75,13.1 19.5,10.84 17.62,9.39ZM8.75,12.5C8.34,12.5 8,12.16 8,11.75C8,11.34 8.34,11 8.75,11C9.16,11 9.5,11.34 9.5,11.75C9.5,12.16 9.16,12.5 8.75,12.5ZM15.25,12.5C14.84,12.5 14.5,12.16 14.5,11.75C14.5,11.34 14.84,11 15.25,11C15.66,11 16,11.34 16,11.75C16,12.16 15.66,12.5 15.25,12.5Z"/></svg>
-        </div>
-        <h3>Native Android</h3>
-        <p>init.rc integration, 2 userspace daemons for unkillable containers with automatic Android quirks handling.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
-        </div>
-        <h3>Hardware Access & GPU Acceleration</h3>
-        <p>Native Adreno Turnip GPU access on Android, AMD/Intel on Linux, Also give access to USB, Block devices, Sensors, serial devices to your container, with a single toggle.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-        </div>
-        <h3>Network Isolation</h3>
-        <p>Host, NAT/Veth pairs (DHCP + DNS server + port forwarding), or air-gapped. Actually works on Android.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
-        </div>
-        <h3>Material 3 App</h3>
-        <p>Manage unlimited containers, built-in terminal, systemd service control - all in one app.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- COMPARISON -->
-<section class="section">
-  <div class="container">
-    <div class="section-label">Comparison</div>
-    <h2>vs. Alternatives</h2>
-    <p class="section-desc">See how Droidspaces stacks up against other Linux-on-Android approaches.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Chroot</th>
-            <th>LXC / Docker</th>
-            <th>Termux</th>
-            <th class="hl">Droidspaces</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Init System</td>
-            <td>❌</td>
-            <td>⚠️ Docker only</td>
-            <td>❌</td>
-            <td class="hl">✅ Full</td>
-          </tr>
-          <tr>
-            <td>Process Isolation</td>
-            <td>❌</td>
-            <td>✅</td>
-            <td>❌</td>
-            <td class="hl">✅</td>
-          </tr>
-          <tr>
-            <td>Network Isolation</td>
-            <td>❌</td>
-            <td>⚠️ Broken on Android</td>
-            <td>❌</td>
-            <td class="hl">✅ Works</td>
-          </tr>
-          <tr>
-            <td>Binary Size</td>
-            <td>N/A</td>
-            <td>10 MB+</td>
-            <td>50 MB+</td>
-            <td class="hl">~300 KB</td>
-          </tr>
-          <tr>
-            <td>Android Integration</td>
-            <td>❌</td>
-            <td>❌</td>
-            <td>✅</td>
-            <td class="hl">✅ Deep</td>
-          </tr>
-          <tr>
-            <td>Setup Complexity</td>
-            <td>Simple</td>
-            <td>Complex</td>
-            <td>Simple</td>
-            <td class="hl">Simple</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- REQUIREMENTS -->
-<section class="section">
-  <div class="container">
-    <div class="section-label">Requirements</div>
-    <h2>What you need</h2>
-    <p class="section-desc">Droidspaces runs on rooted Android devices and standard Linux systems.</p>
-    <div class="req-grid">
-      <div class="req-card">
-        <h3>Android</h3>
-        <ul>
-          <li>Kernel 3.10 or newer</li>
-          <li>Rooted device (KernelSU, Magisk, or APatch)</li>
-          <li>Namespace support in kernel config</li>
-          <li>ARM64 or ARM32 architecture</li>
-        </ul>
-      </div>
-      <div class="req-card">
-        <h3>Linux</h3>
-        <ul>
-          <li>Modern kernel with namespace support</li>
-          <li>Enabled by default on most distros</li>
-          <li>x86_64, ARM64, or ARM32</li>
-          <li>No root required for user namespaces</li>
-        </ul>
+  <!-- COMPARISON -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Comparison</div>
+      <h2>vs. Alternatives</h2>
+      <p class="section-desc">See how Droidspaces stacks up against other Linux-on-Android approaches.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>PRoot</th>
+              <th>Chroot</th>
+              <th>LXC / Docker via Termux</th>
+              <th class="hl">Droidspaces</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Technology</td>
+              <td>Syscall Hooking</td>
+              <td>Path Redirection</td>
+              <td>Namespaces</td>
+              <td class="hl">Namespaces</td>
+            </tr>
+            <tr>
+              <td>Performance</td>
+              <td>Moderate</td>
+              <td>Native</td>
+              <td>Native</td>
+              <td class="hl">Native</td>
+            </tr>
+            <tr>
+              <td>Boot Time</td>
+              <td>Not Applicable</td>
+              <td>Not Applicable</td>
+              <td>150 to 900 milliseconds on systemd</td>
+              <td class="hl">150 to 900 milliseconds on systemd</td>
+            </tr>
+            <tr>
+              <td>Init Support</td>
+              <td>None</td>
+              <td>None</td>
+              <td>LXC only</td>
+              <td class="hl">Full</td>
+            </tr>
+            <tr>
+              <td>Persistence</td>
+              <td>Low</td>
+              <td>Low</td>
+              <td>Low</td>
+              <td class="hl">Very High (Unkillable 2 daemons)</td>
+            </tr>
+            <tr>
+              <td>Hardware Access</td>
+              <td>None</td>
+              <td>Manual Duct-Tape</td>
+              <td>Manual Duct-Tape</td>
+              <td class="hl">Full (Single Toggle)</td>
+            </tr>
+            <tr>
+              <td>GPU Access</td>
+              <td>Moderate</td>
+              <td>Manual Duct-Tape</td>
+              <td>Manual Duct-Tape</td>
+              <td class="hl">Full (Single Toggle)</td>
+            </tr>
+            <tr>
+              <td>Termux-X11 Support</td>
+              <td>Moderate</td>
+              <td>Manual Duct-Tape</td>
+              <td>Manual Duct-Tape</td>
+              <td class="hl">Full (Single Toggle)</td>
+            </tr>
+            <tr>
+              <td>Privileged Mode</td>
+              <td>No</td>
+              <td>Full</td>
+              <td>Manual Duct-Tape</td>
+              <td class="hl">Full, Customizable (Nomask, Nocaps, Noseccomp, etc.)</td>
+            </tr>
+            <tr>
+              <td>Run at Boot</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td class="hl">Yes (Native init.rc/service.d)</td>
+            </tr>
+            <tr>
+              <td>Portable rootfs.img Support</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td class="hl">Yes (Native Loop)</td>
+            </tr>
+            <tr>
+              <td>Binary Size</td>
+              <td>10 MB plus</td>
+              <td>Not Applicable</td>
+              <td>50 MB plus</td>
+              <td class="hl">300 KB</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- CTA -->
-<section class="cta-section">
-  <div class="section-label">Get started</div>
-  <h2>Ready to run real containers?</h2>
-  <p>Download the binary or read the docs to get up and running in minutes.</p>
-  <div class="cta-btns">
-    <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Installation-Android.md" class="btn btn-primary">Documentation</a>
-    <a href="https://github.com/ravindu644/Droidspaces-OSS" class="btn btn-ghost">GitHub</a>
-    <a href="https://t.me/Droidspaces" class="btn btn-ghost">Telegram</a>
-  </div>
-</section>
+  <!-- REQUIREMENTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Requirements</div>
+      <h2>What you need</h2>
+      <p class="section-desc">Droidspaces runs on rooted Android devices and standard Linux systems.</p>
+      <div class="req-grid">
+        <div class="req-card">
+          <h3>Android</h3>
+          <ul>
+            <li>Kernel 3.10 or newer</li>
+            <li>Rooted device (KernelSU, Magisk, or APatch)</li>
+            <li>Namespace support in kernel config</li>
+            <li>ARM64 or ARM32 architecture</li>
+          </ul>
+        </div>
+        <div class="req-card">
+          <h3>Linux</h3>
+          <ul>
+            <li>Modern kernel with namespace support</li>
+            <li>Enabled by default on most distros</li>
+            <li>x86_64, ARM64, or ARM32</li>
+            <li>No root required for user namespaces</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  <p>&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644">ravindu644</a></p>
-</footer>
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="section-label">Get started</div>
+    <h2>Ready to run real containers?</h2>
+    <p>Download the binary or read the docs to get up and running in minutes.</p>
+    <div class="cta-btns">
+      <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Installation-Android.md"
+        class="btn btn-primary">Documentation</a>
+      <a href="https://github.com/ravindu644/Droidspaces-OSS" class="btn btn-ghost">GitHub</a>
+      <a href="https://t.me/Droidspaces" class="btn btn-ghost">Telegram</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Droidspaces &nbsp;·&nbsp; <a
+        href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE">GPLv3</a> &nbsp;·&nbsp; by <a
+        href="https://github.com/ravindu644">ravindu644</a></p>
+  </footer>
 
   <script>
-(() => {
-  const terminalBody = document.querySelector(".terminal-body");
+    (() => {
+      const terminalBody = document.querySelector(".terminal-body");
 
-  if (!terminalBody) {
-    return;
-  }
+      if (!terminalBody) {
+        return;
+      }
 
-  const lines = Array.from(terminalBody.children)
-    .filter((child) => child.tagName === "DIV");
+      const lines = Array.from(terminalBody.children)
+        .filter((child) => child.tagName === "DIV");
 
-  if (lines.length === 0) {
-    return;
-  }
+      if (lines.length === 0) {
+        return;
+      }
 
-  const stepMs = 100;
-  const holdMs = 3000;
-  const restartPauseMs = 250;
+      const stepMs = 100;
+      const holdMs = 3000;
+      const restartPauseMs = 250;
 
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
 
-  if (prefersReducedMotion) {
-    lines.forEach((line) => {
-      line.classList.add("is-visible");
-    });
-    return;
-  }
+      if (prefersReducedMotion) {
+        lines.forEach((line) => {
+          line.classList.add("is-visible");
+        });
+        return;
+      }
 
-  let timers = [];
+      let timers = [];
 
-  function clearTimers() {
-    timers.forEach((timer) => {
-      clearTimeout(timer);
-    });
+      function clearTimers() {
+        timers.forEach((timer) => {
+          clearTimeout(timer);
+        });
 
-    timers = [];
-  }
+        timers = [];
+      }
 
-  function hideAllLines() {
-    lines.forEach((line) => {
-      line.classList.remove("is-visible");
-    });
-  }
+      function hideAllLines() {
+        lines.forEach((line) => {
+          line.classList.remove("is-visible");
+        });
+      }
 
-  function revealLines() {
-    clearTimers();
-    hideAllLines();
+      function revealLines() {
+        clearTimers();
+        hideAllLines();
 
-    lines.forEach((line, index) => {
-      const timer = setTimeout(() => {
-        line.classList.add("is-visible");
-      }, index * stepMs);
+        lines.forEach((line, index) => {
+          const timer = setTimeout(() => {
+            line.classList.add("is-visible");
+          }, index * stepMs);
 
-      timers.push(timer);
-    });
+          timers.push(timer);
+        });
 
-    const lastRevealAt = (lines.length - 1) * stepMs;
-    const clearAt = lastRevealAt + holdMs;
+        const lastRevealAt = (lines.length - 1) * stepMs;
+        const clearAt = lastRevealAt + holdMs;
 
-    const clearTimer = setTimeout(() => {
-      hideAllLines();
+        const clearTimer = setTimeout(() => {
+          hideAllLines();
 
-      const restartTimer = setTimeout(() => {
+          const restartTimer = setTimeout(() => {
+            revealLines();
+          }, restartPauseMs);
+
+          timers.push(restartTimer);
+        }, clearAt);
+
+        timers.push(clearTimer);
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          clearTimers();
+          return;
+        }
+
         revealLines();
-      }, restartPauseMs);
+      });
 
-      timers.push(restartTimer);
-    }, clearAt);
-
-    timers.push(clearTimer);
-  }
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      clearTimers();
-      return;
-    }
-
-    revealLines();
-  });
-
-  revealLines();
-})();
-</script>
+      revealLines();
+    })();
+  </script>
 </body>
+
 </html>
