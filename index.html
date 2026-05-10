@@ -87,32 +87,44 @@
     <p class="section-desc">Full Linux namespace isolation without Android-specific quirks, chroot hacks or emulation overhead. Runs natively on Android with deep system integration.</p>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">⬡</div>
+        <div class="feature-icon">
+          <svg viewBox="8.25 10.35 31.5 27.3" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M36.85 30.16H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 34.97c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/><path d="M36.85 21.00H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 25.82c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/><path d="M36.84 11.74H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 16.57c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" fill="currentColor"/></svg>
+        </div>
         <h3>Real Containers</h3>
         <p>Full PID, MNT, UTS, IPC, and Cgroup namespace isolation. Not a chroot. Not emulation.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">◈</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        </div>
         <h3>Zero Dependencies</h3>
         <p>Single ~300KB static binary compiled against musl. Runs on any Linux kernel 3.10+.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">◉</div>
+        <div class="feature-icon">
+          <svg viewBox="3 7 18 9" fill="currentColor"><path d="M17.62,9.39L19.07,8.04C19.34,7.79 19.34,7.39 19.09,7.12C18.84,6.85 18.44,6.85 18.17,7.1L16.47,8.68C15.2,7.9 13.68,7.44 12.06,7.44C10.44,7.44 8.92,7.9 7.65,8.68L5.95,7.1C5.68,6.85 5.28,6.85 5.03,7.12C4.78,7.39 4.78,7.79 5.05,8.04L6.5,9.39C4.54,10.84 3.25,13.1 3.25,15.68H20.75C20.75,13.1 19.5,10.84 17.62,9.39ZM8.75,12.5C8.34,12.5 8,12.16 8,11.75C8,11.34 8.34,11 8.75,11C9.16,11 9.5,11.34 9.5,11.75C9.5,12.16 9.16,12.5 8.75,12.5ZM15.25,12.5C14.84,12.5 14.5,12.16 14.5,11.75C14.5,11.34 14.84,11 15.25,11C15.66,11 16,11.34 16,11.75C16,12.16 15.66,12.5 15.25,12.5Z"/></svg>
+        </div>
         <h3>Native Android</h3>
         <p>init.rc integration, 2 userspace daemons for unkillable containers with automatic Android quirks handling.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">◑</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="15" x2="23" y2="15"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="15" x2="4" y2="15"></line></svg>
+        </div>
         <h3>Hardware Access & GPU Acceleration</h3>
         <p>Native Adreno Turnip GPU access on Android, AMD/Intel on Linux, Also give access to USB, Block devices, Sensors, serial devices to your container, with a single toggle.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">◐</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
         <h3>Network Isolation</h3>
         <p>Host, NAT/Veth pairs (DHCP + DNS server + port forwarding), or air-gapped. Actually works on Android.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">▣</div>
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+        </div>
         <h3>Material 3 App</h3>
         <p>Manage unlimited containers, built-in terminal, systemd service control - all in one app.</p>
       </div>
