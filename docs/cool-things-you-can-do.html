@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Cool projects with Droidspaces: secure mobile server with Tailscale + UFW + Fail2Ban, and Docker containers nested inside Droidspaces.">
+  <meta name="keywords" content="Droidspaces mobile server, Tailscale Android container, UFW Fail2Ban container, Docker nested">
+  <title>Cool Things You Can Do - Droidspaces Docs</title>
+  <meta property="og:title" content="Cool Things You Can Do - Droidspaces Docs">
+  <meta property="og:description" content="Cool projects with Droidspaces: secure mobile server with Tailscale + UFW + Fail2Ban, and Docker containers nested inside Droidspaces.">
+  <meta property="og:url" content="https://www.droidspaces.org/docs/cool-things-you-can-do.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cool Things You Can Do - Droidspaces Docs">
+  <meta name="twitter:description" content="Cool projects with Droidspaces: secure mobile server with Tailscale + UFW + Fail2Ban, and Docker containers nested inside Droidspaces.">
+  <meta name="twitter:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <link rel="canonical" href="https://www.droidspaces.org/docs/cool-things-you-can-do.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .docs-layout {
+      display: flex; min-height: calc(100vh - 56px);
+    }
+    .sidebar {
+      width: 300px; flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      background: var(--bg2);
+      overflow-y: auto;
+      position: sticky; top: 56px; height: calc(100vh - 56px);
+    }
+    .sidebar-inner {
+      padding: 0;
+      position: relative;
+      width: 100%;
+      min-width: 0;
+    }
+    .sidebar-group {
+      margin-bottom: 0;
+    }
+    .sidebar-heading {
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); padding: 1rem 1rem 0.25rem;
+    }
+    .sidebar-link {
+      display: block; padding: 0.5rem 1rem;
+      font-size: 0.9rem; color: var(--muted);
+      text-decoration: none; border-radius: 0;
+      transition: all 0.1s;
+    }
+    .sidebar-link:hover {
+      color: var(--text); background: var(--bg3);
+    }
+    .sidebar-link.active {
+      color: var(--accent2); background: rgba(79,142,247,0.08);
+      font-weight: 600;
+    }
+    .sidebar-content {
+      flex: 1; min-width: 0;
+      padding: 2rem 2rem 4rem;
+      max-width: 960px;
+    }
+    .sidebar-content h1 {
+      font-family: var(--mono); font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-content h2 {
+      font-family: var(--mono); font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin: 2rem 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .sidebar-content h2:target {
+      border-left: 3px solid var(--accent);
+      padding-left: 0.75rem;
+    }
+    .sidebar-content h3 {
+      font-family: var(--mono); font-size: 1rem; font-weight: 600;
+      color: var(--accent2); margin: 1.5rem 0 0.5rem;
+    }
+    .sidebar-content h3:target {
+      border-left: 2px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+    .sidebar-content p {
+      color: var(--muted); line-height: 1.7; margin-bottom: 1rem;
+    }
+    .sidebar-content strong { color: var(--text); }
+    .sidebar-content a {
+      color: var(--accent2); text-decoration: none;
+    }
+    .sidebar-content a:hover { text-decoration: underline; }
+    .sidebar-content code {
+      font-family: var(--mono); font-size: 0.82rem;
+      background: var(--bg3); padding: 0.15rem 0.4rem;
+      border-radius: 4px; color: var(--accent2);
+    }
+    .sidebar-content pre {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .sidebar-content pre code {
+      background: none; padding: 0; font-size: 0.78rem;
+      color: var(--text); line-height: 1.6;
+    }
+    .code-block {
+      position: relative;
+    }
+    .code-block:hover .copy-btn {
+      opacity: 1;
+    }
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.7rem;
+      font-family: var(--sans); padding: 0.2rem 0.5rem;
+      border-radius: 4px; cursor: pointer;
+      opacity: 0; transition: opacity 0.15s; z-index: 1;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    .copy-btn:hover {
+      color: var(--accent2); border-color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .copy-btn { opacity: 1; }
+    }
+    .sidebar-content ul, .sidebar-content ol {
+      color: var(--muted); line-height: 1.7;
+      margin-bottom: 1rem; padding-left: 1.25rem;
+    }
+    .sidebar-content li { margin-bottom: 0.25rem; }
+    .sidebar-content li > .code-block { margin-top: 0.5rem; }
+    .sidebar-content blockquote {
+      border-left: 3px solid var(--accent); background: var(--bg3);
+      padding: 0.75rem 1rem; margin-bottom: 1rem;
+      border-radius: 0 6px 6px 0;
+      color: var(--text); font-size: 0.9rem;
+    }
+    .sidebar-content blockquote p { color: var(--text); margin-bottom: 0; }
+    .sidebar-content hr {
+      border: none; border-top: 1px solid var(--border); margin: 2rem 0;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    .table-wrap table {
+      margin-bottom: 0;
+    }
+    .sidebar-content table {
+      width: 100%; border-collapse: collapse; font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-content th {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0.75rem 1rem; text-align: left; color: var(--muted);
+      border-bottom: 1px solid var(--border); background: var(--bg3);
+      white-space: nowrap;
+    }
+    .sidebar-content td {
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      word-break: break-word;
+    }
+    .sidebar-content img {
+      max-width: 100%; border-radius: 8px; border: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+    .sidebar-content details {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .sidebar-content summary {
+      font-family: var(--mono); font-size: 0.85rem;
+      cursor: pointer; color: var(--accent2);
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--bg3); padding: 0.75rem 1rem;
+      margin-bottom: 1rem; border-radius: 0 6px 6px 0;
+      font-size: 0.9rem; color: var(--text);
+    }
+    .callout-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      display: block; margin-bottom: 0.25rem;
+    }
+    .callout-note { border-left-color: var(--accent); }
+    .callout-note .callout-title { color: var(--accent); }
+    .callout-tip { border-left-color: var(--green); }
+    .callout-tip .callout-title { color: var(--green); }
+    .callout-warning { border-left-color: #f59e0b; }
+    .callout-warning .callout-title { color: #f59e0b; }
+    .callout-caution { border-left-color: #f59e0b; }
+    .callout-caution .callout-title { color: #f59e0b; }
+    .callout-important { border-left-color: #ef4444; }
+    .callout-important .callout-title { color: #ef4444; }
+    .doc-nav-buttons {
+      display: flex; justify-content: space-between; gap: 1rem;
+      margin: 2rem 0 1rem;
+    }
+    .doc-nav-btn {
+      padding: 0.5rem 1rem; border-radius: 8px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid var(--border);
+      transition: all 0.15s; max-width: 50%;
+    }
+    .doc-nav-btn:hover {
+      color: var(--text); border-color: var(--muted);
+    }
+    .doc-nav-next {
+      margin-left: auto; text-align: right;
+    }
+    .doc-nav-prev {
+      text-align: left;
+    }
+    .doc-copyright {
+      font-size: 0.78rem; color: var(--border2);
+      padding-top: 1rem; border-top: 1px solid var(--border);
+      margin-top: 1.5rem; text-align: center;
+    }
+    .doc-copyright a {
+      color: var(--border2); text-decoration: none;
+    }
+    .doc-copyright a:hover {
+      color: var(--muted);
+    }
+    .nav-overlay {
+      display: none; position: fixed;
+      top: 56px; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 199;
+    }
+    .nav-overlay.active { display: block; }
+
+    .sidebar-close {
+      display: none;
+      position: absolute; top: 0.5rem; right: 1rem;
+      background: none; border: none;
+      color: var(--muted); font-size: 1.5rem;
+      cursor: pointer; padding: 0.25rem 0.5rem;
+      line-height: 1; border-radius: 4px;
+    }
+    .sidebar-close:hover {
+      color: var(--text); background: var(--bg3);
+    }
+
+    .doc-breadcrumb {
+      display: none;
+      position: sticky;
+      top: 56px;
+      z-index: 50;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      user-select: none;
+      cursor: pointer;
+    }
+    .doc-breadcrumb .bc-sep {
+      color: var(--border2);
+    }
+    .doc-breadcrumb .bc-section {
+      color: var(--text);
+    }
+    .doc-breadcrumb .bc-label {
+      color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        display: flex;
+        position: fixed; top: 56px; left: 0;
+        width: 300px; height: calc(100dvh - 56px); z-index: 200;
+        border-right: 1px solid var(--border);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-close { display: block; }
+      .sidebar-content { padding: 1.5rem 1rem 3rem; }
+      .doc-breadcrumb { display: flex; }
+      .docs-layout { flex-direction: column; }
+      .sidebar-content th,
+      .sidebar-content td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+    <nav aria-label="Main navigation">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:100%;">
+      <a href="/" class="nav-logo">
+        <svg class="logo-icon" viewBox="8.25 10.35 31.5 27.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36.85 30.16H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 34.97c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.85 21.00H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 25.82c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.84 11.74H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 16.57c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+        </svg>
+        <span class="logo-text">Droidspaces</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <ul class="nav-links">
+          <li class="nav-features"><a href="/#features">Features</a></li>
+          <li><a href="/docs/" style="color:var(--accent2)"><i class="fas fa-book nav-icon nav-icon-docs"></i><span class="nav-label">Documentation</span></a></li>
+          <li class="nav-downloads"><a href="/downloads.html"><i class="fas fa-download nav-icon nav-icon-docs"></i><span class="nav-label">Downloads</span></a></li>
+          <li><a href="https://github.com/ravindu644/Droidspaces-OSS" rel="noopener noreferrer"><i class="fab fa-github nav-icon"></i><span class="nav-label nav-label-gt">GitHub</span></a></li>
+          <li><a href="https://t.me/Droidspaces" rel="noopener noreferrer"><i class="fab fa-telegram nav-icon"></i><span class="nav-label nav-label-gt">Telegram</span></a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="sidebar-overlay"></div>
+
+  <div class="doc-breadcrumb" id="sidebar-toggle" role="button" tabindex="0" aria-label="Toggle docs navigation">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <line x1="9" y1="3" x2="9" y2="21"/>
+    </svg>
+    <span>Docs</span><span class="bc-sep">/</span><span class="bc-section">Recipes</span><span class="bc-sep">/</span><span class="bc-label">Cool Things You Can Do</span>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">&times;</button>
+<div class="sidebar-group">
+<div class="sidebar-heading">Basics</div>
+<a href="getting-started.html" class="sidebar-link">Getting Started</a>
+<a href="installation-android.html" class="sidebar-link">Android Installation</a>
+<a href="installation-linux.html" class="sidebar-link">Linux Installation</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Guides</div>
+<a href="features.html" class="sidebar-link">Features Deep Dive</a>
+<a href="gpu-acceleration.html" class="sidebar-link">GPU Acceleration</a>
+<a href="kernel-configuration.html" class="sidebar-link">Kernel Configuration</a>
+<a href="usage-android-app.html" class="sidebar-link">Android App Usage</a>
+<a href="linux-cli.html" class="sidebar-link">Linux CLI Usage</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Recipes</div>
+<a href="cool-things-you-can-do.html" class="sidebar-link active">Cool Things You Can Do</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Reference</div>
+<a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+<a href="common-errors.html" class="sidebar-link">Common Errors</a>
+<a href="community-supported-devices.html" class="sidebar-link">Supported Devices</a>
+<a href="nix-nixos.html" class="sidebar-link">Nix / NixOS</a>
+<a href="uninstallation.html" class="sidebar-link">Uninstallation</a>
+</div>
+      </div>
+    </aside>
+    <div class="sidebar-content">
+<h1 id="cool-things-you-can-do-with-droidspaces">Cool Things You Can Do with Droidspaces</h1>
+<div class="callout callout-important"><strong class="callout-title">IMPORTANT</strong> This guide is specifically focused on <strong>Android devices</strong>. While Droidspaces also runs on Linux Desktop, these instructions address the unique networking, storage, and kernel requirements of the Android environment.</div>
+<h3 id="quick-navigation">Quick Navigation</h3>
+<ul>
+<li><a href="#1-setting-up-a-secure-mobile-server-tailscale--ufw--fail2ban" rel="noopener noreferrer">1. Setting Up a Secure "Mobile Server" (Tailscale + UFW + Fail2Ban)</a>- <a href="#prerequisites" rel="noopener noreferrer">Prerequisites</a>- <a href="#step-1-install-networking-tools--compatibility-layer" rel="noopener noreferrer">Step 1: Install Networking Tools & Compatibility Layer</a>- <a href="#step-2-personal-user-setup--ssh-hardening" rel="noopener noreferrer">Step 2: Personal User Setup & SSH Hardening</a>- <a href="#step-3-set-up-tailscale" rel="noopener noreferrer">Step 3: Set Up Tailscale</a>- <a href="#step-4-secure-the-container-with-ufw-firewall" rel="noopener noreferrer">Step 4: Secure the Container with UFW (Firewall)</a>- <a href="#step-5-add-brute-force-protection-with-fail2ban" rel="noopener noreferrer">Step 5: Add Brute-Force Protection with Fail2Ban</a></li>
+<li><a href="#2-running-docker-containers-nested-containerization" rel="noopener noreferrer">2. Running Docker Containers (Nested Containerization)</a>- <a href="#prerequisites-1" rel="noopener noreferrer">Prerequisites</a>- <a href="#step-1-ensure-nat-networking" rel="noopener noreferrer">Step 1: Ensure NAT Networking</a>- <a href="#step-2-compatibility-layer-iptables-legacy" rel="noopener noreferrer">Step 2: Compatibility Layer (iptables-legacy)</a>- <a href="#step-3-install-docker" rel="noopener noreferrer">Step 3: Install Docker</a>- <a href="#step-4-non-root-user-setup" rel="noopener noreferrer">Step 4: Non-Root User Setup</a>- <a href="#step-5-verify-installation" rel="noopener noreferrer">Step 5: Verify Installation</a>- <a href="#last-resort-for-host-mode-or-legacy-kernels-old-kernels-only" rel="noopener noreferrer">"Last Resort" for Host Mode or Legacy Kernels (Old Kernels Only)</a></li>
+</ul>
+<hr>
+<h2 id="1-setting-up-a-secure-mobile-server-tailscale-ufw-fail2ban">1. Setting Up a Secure "Mobile Server" (Tailscale + UFW + Fail2Ban)</h2>
+<p>You can turn your Android device into a secure, accessible-from-anywhere Linux server by combining Droidspaces with Tailscale and standard Linux security tools.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li><strong>Kernel Support</strong>: This setup requires several Netfilter and IPSet modules. See <a href="./kernel-configuration.html#additional-kernel-configuration-for-ufwfail2ban" rel="noopener noreferrer">Additional Kernel Configuration for UFW/Fail2ban</a> for the full list of required options.</li>
+<li><strong>LTS Distribution</strong>: It is highly recommended to use a Long-Term Support (LTS) distribution like <strong>Ubuntu 24.04 LTS</strong> or <strong>Debian 12</strong> for the best stability and package support.</li>
+<li><strong>Root User</strong>: All steps in this guide must be run as the <strong>root</strong> user inside the container.</li>
+<li><strong>Package Manager</strong>: The commands below use <code>apt</code>, which is only available in Debian and Ubuntu-based distributions.</li>
+<li><strong>NAT Mode</strong>: <strong>Mandatory.</strong> You must run your container in NAT mode (<code>--net=nat</code>). Using host networking while running a firewall like UFW can interfere with the Android host's connectivity, or it won't even work.</li>
+</ul>
+<hr>
+<h3 id="step-1-install-networking-tools-compatibility-layer">Step 1: Install Networking Tools & Compatibility Layer</h3>
+<p>To handle firewall rules and network debugging, you first need to install the essential networking tools and ensure compatibility with the Android kernel.</p>
+<ol>
+<li><strong>Install tools</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt update && apt install -y net-tools iptables
+</code></pre></div></li>
+<li><strong>Switch to Legacy iptables</strong>:Modern Ubuntu/Debian versions use the <code>nftables</code> backend by default, which often fails in Droidspaces containers on Android kernels. You <strong>must</strong> switch to the legacy <code>iptables</code> backend to ensure your firewall works:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+</code></pre></div></li>
+</ol>
+<hr>
+<h3 id="step-2-personal-user-setup-ssh-hardening">Step 2: Personal User Setup & SSH Hardening</h3>
+<p>To maintain a secure server, creating a dedicated user with <code>sudo</code> privileges and disabling direct root access over SSH is best practice.</p>
+<ol>
+<li><strong>Reclaim UID 1000</strong>: Linux distributions usually assign UID <code>1000</code> to the first non-root user (like <code>ubuntu</code>). To use this ID for your personal user, you should first detect and completely remove any existing UID 1000:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Identify and delete the default user associated with UID 1000
+DEFAULT_USER=$(getent passwd 1000 | cut -d: -f 1)
+userdel -r "$DEFAULT_USER"
+groupdel "$DEFAULT_USER" 2>/dev/null
+</code></pre></div></li>
+<li><strong>Create your personal user as UID 1000</strong> (Replace <code>YOUR_USER</code> with your desired username):<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>useradd -m -u 1000 -s /bin/bash YOUR_USER
+usermod -aG sudo YOUR_USER
+passwd YOUR_USER
+</code></pre></div></li>
+<li><strong>Install OpenSSH Server</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt install -y openssh-server
+</code></pre></div></li>
+<li><strong>Disable Root Login</strong>:Edit <code>/etc/ssh/sshd_config</code> to prevent direct root access:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+systemctl restart ssh
+</code></pre></div></li>
+</ol>
+<hr>
+<h3 id="step-3-set-up-tailscale">Step 3: Set Up Tailscale</h3>
+<p>Tailscale provides a secure P2P tunnel to your container, allowing you to access it from any device in your Tailnet without opening ports on your public router.</p>
+<ol>
+<li><strong>Install Tailscale</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>curl -fsSL https://tailscale.com/install.sh | sh
+</code></pre></div></li>
+<li><strong>Authenticate</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>tailscale up
+</code></pre></div></li>
+</ol>
+<hr>
+<h3 id="step-4-secure-the-container-with-ufw-firewall">Step 4: Secure the Container with UFW (Firewall)</h3>
+<p>Since Droidspaces NAT mode currently only supports IPv4, we should disable IPv6 in UFW to avoid initialization errors.</p>
+<ol>
+<li><strong>Disable IPv6 in UFW</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sed -i 's/IPV6=yes/IPV6=no/' /etc/default/ufw
+</code></pre></div></li>
+<li><strong>Set Default Policies</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw default deny incoming
+ufw default allow outgoing
+</code></pre></div></li>
+<li><strong>Whitelist the Tailscale Interface</strong>:Instead of whitelisting specific IP addresses, tell UFW to trust anything coming through your private Tailscale tunnel:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw allow in on tailscale0
+</code></pre></div></li>
+<li><strong>Enable the Firewall</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw --force enable
+</code></pre></div></li>
+</ol>
+<hr>
+<h3 id="step-5-add-brute-force-protection-with-fail2ban">Step 5: Add Brute-Force Protection with Fail2Ban</h3>
+<p>Fail2Ban monitors your system logs and automatically blocks IP addresses that show malicious behavior.</p>
+<ol>
+<li><strong>Install Fail2Ban</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt install -y fail2ban
+</code></pre></div></li>
+<li><strong>Create a Local Configuration</strong>:Create a persistent configuration file at <code>/etc/fail2ban/jail.local</code> to protect SSH and integrate it with UFW:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[DEFAULT]
+# Ban for 1 hour after 5 failed attempts within 10 minutes
+bantime  = 1h
+findtime = 10m
+maxretry = 5
+
+# Use UFW as the banning action
+banaction = ufw
+
+# Whitelist to prevent accidental lockouts:
+# 1. YOUR_TAILSCALE_IP: Your private tunnel address (e.g. 100.74.132.81)
+# 2. 172.28.0.0/16: The internal Droidspaces NAT bridge (covers all containers)
+# 3. YOUR_LAN_SUBNET: Your local Wi-Fi range if using port forwarding (e.g. if your LAN IP is 192.168.1.15, use 192.168.1.0/24)
+ignoreip = YOUR_TAILSCALE_IP 172.28.0.0/16 YOUR_LAN_SUBNET
+
+[sshd]
+enabled = true
+port    = ssh
+backend = systemd
+</code></pre></div></li>
+<li><strong>Start and Verify</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>systemctl restart fail2ban
+fail2ban-client status sshd
+</code></pre></div></li>
+</ol>
+<p>Your "Mobile Server" is now officially a hardened fortress! Anyone attempting to access it from the open internet will be blocked, while you maintain full access through your private Tailscale network.</p>
+<hr>
+<h2 id="2-running-docker-containers-nested-containerization">2. Running Docker Containers (Nested Containerization)</h2>
+<p>Droidspaces supports running Docker natively inside your containers on all supported kernel versions. This allows you to run nested containerized services (like Portainer, Home Assistant, etc.) directly on your Android device.</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li><strong>LTS Distribution</strong>: If your kernel version is less than <strong>5.x.x</strong>, it is highly recommended to use an LTS distribution like <strong>Ubuntu 24.04 LTS</strong> for the best compatibility.</li>
+<li><strong>Kernel Configuration</strong>: Ensure your kernel has the required Droidspaces options enabled. See <a href="./kernel-configuration.html#required-kernel-configuration" rel="noopener noreferrer">Required Kernel Configuration</a>.</li>
+<li><strong>Storage Mode</strong>: You <strong>must</strong> use either <strong>ext4 /data</strong> or <strong>rootfs.img mode</strong> (recommended).- <em>Why?</em> Android's default <code>f2fs</code> filesystem does not support the overlay features required by Docker's <code>overlay2</code> storage driver. Using a <code>rootfs.img</code> ensures you are running on a native ext4 filesystem.</li>
+<li><strong>NAT Mode</strong>: <strong>Mandatory.</strong> Docker requires NAT networking to create its internal <code>docker0</code> bridge and provide internet access to nested containers.</li>
+</ul>
+<hr>
+<h3 id="step-1-ensure-nat-networking">Step 1: Ensure NAT Networking</h3>
+<p>Running Droidspaces in host networking mode will cause Docker to fail when attempting to create the <code>docker0</code> interface. Always choose NAT mode for your container.</p>
+<p>You can easily change to the NAT mode by editing the container configuration using the Android app.</p>
+<h3 id="step-2-compatibility-layer-iptables-legacy">Step 2: Compatibility Layer (iptables-legacy)</h3>
+<p>Docker relies heavily on <code>iptables</code> for its networking stack. Modern distributions often default to the <code>nftables</code> backend, which can cause "chain not found" errors in containers. Switch to the legacy backend before installing Docker:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>update-alternatives --set iptables /usr/sbin/iptables-legacy
+update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+</code></pre></div>
+<h3 id="step-3-install-docker">Step 3: Install Docker</h3>
+<p>Use the official Docker installation script or the distribution's package manager:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Using the official convenience script
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+</code></pre></div>
+<h3 id="step-4-non-root-user-setup">Step 4: Non-Root User Setup</h3>
+<p>To run Docker commands without prefixing them with <code>sudo</code>, add your user to the <code>docker</code> group:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Replace YOUR_USER with your username
+usermod -aG docker YOUR_USER
+
+# Apply the group change without logging out
+newgrp docker
+</code></pre></div>
+<h3 id="step-5-verify-installation">Step 5: Verify Installation</h3>
+<p>Test that Docker can pull and run a nested container:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>docker run --rm hello-world
+</code></pre></div>
+<p>If you see the "Hello from Docker!" message, you are successfully running nested containers on Android! 🐳</p>
+<div class="callout callout-tip"><strong class="callout-title">TIP</strong> <strong>Troubleshooting Docker</strong>: If the Docker daemon fails to start automatically or the <code>docker run</code> command fails, run <code>sudo dockerd</code> manually in your terminal. This will output real-time logs and help you identify if there are any missing kernel modules, filesystem conflicts, or network bridge issues.</div>
+<h3 id="last-resort-for-host-mode-or-legacy-kernels-old-kernels-only">"Last Resort" for Host Mode or Legacy Kernels (Old Kernels Only)</h3>
+<p>If you absolutely must run Docker in <strong>host networking mode</strong>, or if your kernel is too old to support <code>iptables-legacy</code> and NAT networking, you can disable Docker's internal networking management as a last resort.</p>
+<p>Run these commands to configure the daemon:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>mkdir -p /etc/docker
+cat <<EOF > /etc/docker/daemon.json
+{
+  "iptables": false,
+  "ip6tables": false,
+  "bridge": "none"
+}
+EOF
+systemctl restart docker
+</code></pre></div>
+<div class="callout callout-warning"><strong class="callout-title">WARNING</strong> Above <code>daemon.json</code> configuration disables Docker's internal bridge (<code>docker0</code>) and all automatic port forwarding. You will only be able to run docker containers with internet with the <code>--network host</code> flag.
+eg: <code>docker run -it --network host ubuntu</code></div>
+<hr>
+<div class="doc-nav-buttons"><a href="linux-cli.html" class="doc-nav-btn doc-nav-prev">← Linux CLI Usage</a><a href="troubleshooting.html" class="doc-nav-btn doc-nav-next">Troubleshooting →</a></div>
+      <p class="doc-copyright">&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>
+</p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const themeToggle = document.getElementById('theme-toggle');
+      const sunIcon = themeToggle.querySelector('.sun-icon');
+      const moonIcon = themeToggle.querySelector('.moon-icon');
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+      function updateIcons(theme) {
+        sunIcon.style.display = theme === 'light' ? 'none' : 'block';
+        moonIcon.style.display = theme === 'light' ? 'block' : 'none';
+      }
+      function getEffectiveTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return mediaQuery.matches ? 'light' : 'dark';
+      }
+      function applyTheme(theme) {
+        if (theme === 'system') {
+          document.documentElement.removeAttribute('data-theme');
+          updateIcons(mediaQuery.matches ? 'light' : 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+          updateIcons(theme);
+        }
+      }
+      applyTheme(getEffectiveTheme());
+      mediaQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'light' : 'dark');
+      });
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = getEffectiveTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+      });
+      // Docs sidebar toggle
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (sidebar.classList.contains('open')) closeSidebar();
+          else openSidebar();
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+
+      const sidebarClose = document.getElementById('sidebar-close');
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', closeSidebar);
+      }
+
+      if (sidebar) {
+        sidebar.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeSidebar);
+        });
+      }
+    })();
+    function copyCode(btn) {
+      const code = btn.parentElement.querySelector('pre code');
+      const text = code.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

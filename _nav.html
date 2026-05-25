@@ -1,0 +1,37 @@
+  <nav aria-label="Main navigation">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:100%;">
+      <a href="/" class="nav-logo">
+        <svg class="logo-icon" viewBox="8.25 10.35 31.5 27.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36.85 30.16H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 34.97c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.85 21.00H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 25.82c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.84 11.74H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 16.57c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+        </svg>
+        <span class="logo-text">Droidspaces</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <ul class="nav-links">
+          <li class="nav-features"><a href="{{FEATURES_HREF}}">Features</a></li>
+          <li><a href="/docs/" {{DOCS_STYLE}}><i class="fas fa-book nav-icon nav-icon-docs"></i><span class="nav-label">Documentation</span></a></li>
+          <li class="nav-downloads"><a href="/downloads.html"><i class="fas fa-download nav-icon nav-icon-docs"></i><span class="nav-label">Downloads</span></a></li>
+          <li><a href="https://github.com/ravindu644/Droidspaces-OSS" rel="noopener noreferrer"><i class="fab fa-github nav-icon"></i><span class="nav-label nav-label-gt">GitHub</span></a></li>
+          <li><a href="https://t.me/Droidspaces" rel="noopener noreferrer"><i class="fab fa-telegram nav-icon"></i><span class="nav-label nav-label-gt">Telegram</span></a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>

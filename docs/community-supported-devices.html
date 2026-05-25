@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Community-maintained compatibility list of Android devices verified to run Droidspaces.">
+  <meta name="keywords" content="Droidspaces supported devices, Android kernel list, device compatibility, custom kernel downloads">
+  <title>Supported Devices - Droidspaces Docs</title>
+  <meta property="og:title" content="Supported Devices - Droidspaces Docs">
+  <meta property="og:description" content="Community-maintained compatibility list of Android devices verified to run Droidspaces.">
+  <meta property="og:url" content="https://www.droidspaces.org/docs/community-supported-devices.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supported Devices - Droidspaces Docs">
+  <meta name="twitter:description" content="Community-maintained compatibility list of Android devices verified to run Droidspaces.">
+  <meta name="twitter:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <link rel="canonical" href="https://www.droidspaces.org/docs/community-supported-devices.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .docs-layout {
+      display: flex; min-height: calc(100vh - 56px);
+    }
+    .sidebar {
+      width: 300px; flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      background: var(--bg2);
+      overflow-y: auto;
+      position: sticky; top: 56px; height: calc(100vh - 56px);
+    }
+    .sidebar-inner {
+      padding: 0;
+      position: relative;
+      width: 100%;
+      min-width: 0;
+    }
+    .sidebar-group {
+      margin-bottom: 0;
+    }
+    .sidebar-heading {
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); padding: 1rem 1rem 0.25rem;
+    }
+    .sidebar-link {
+      display: block; padding: 0.5rem 1rem;
+      font-size: 0.9rem; color: var(--muted);
+      text-decoration: none; border-radius: 0;
+      transition: all 0.1s;
+    }
+    .sidebar-link:hover {
+      color: var(--text); background: var(--bg3);
+    }
+    .sidebar-link.active {
+      color: var(--accent2); background: rgba(79,142,247,0.08);
+      font-weight: 600;
+    }
+    .sidebar-content {
+      flex: 1; min-width: 0;
+      padding: 2rem 2rem 4rem;
+      max-width: 960px;
+    }
+    .sidebar-content h1 {
+      font-family: var(--mono); font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-content h2 {
+      font-family: var(--mono); font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin: 2rem 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .sidebar-content h2:target {
+      border-left: 3px solid var(--accent);
+      padding-left: 0.75rem;
+    }
+    .sidebar-content h3 {
+      font-family: var(--mono); font-size: 1rem; font-weight: 600;
+      color: var(--accent2); margin: 1.5rem 0 0.5rem;
+    }
+    .sidebar-content h3:target {
+      border-left: 2px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+    .sidebar-content p {
+      color: var(--muted); line-height: 1.7; margin-bottom: 1rem;
+    }
+    .sidebar-content strong { color: var(--text); }
+    .sidebar-content a {
+      color: var(--accent2); text-decoration: none;
+    }
+    .sidebar-content a:hover { text-decoration: underline; }
+    .sidebar-content code {
+      font-family: var(--mono); font-size: 0.82rem;
+      background: var(--bg3); padding: 0.15rem 0.4rem;
+      border-radius: 4px; color: var(--accent2);
+    }
+    .sidebar-content pre {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .sidebar-content pre code {
+      background: none; padding: 0; font-size: 0.78rem;
+      color: var(--text); line-height: 1.6;
+    }
+    .code-block {
+      position: relative;
+    }
+    .code-block:hover .copy-btn {
+      opacity: 1;
+    }
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.7rem;
+      font-family: var(--sans); padding: 0.2rem 0.5rem;
+      border-radius: 4px; cursor: pointer;
+      opacity: 0; transition: opacity 0.15s; z-index: 1;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    .copy-btn:hover {
+      color: var(--accent2); border-color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .copy-btn { opacity: 1; }
+    }
+    .sidebar-content ul, .sidebar-content ol {
+      color: var(--muted); line-height: 1.7;
+      margin-bottom: 1rem; padding-left: 1.25rem;
+    }
+    .sidebar-content li { margin-bottom: 0.25rem; }
+    .sidebar-content li > .code-block { margin-top: 0.5rem; }
+    .sidebar-content blockquote {
+      border-left: 3px solid var(--accent); background: var(--bg3);
+      padding: 0.75rem 1rem; margin-bottom: 1rem;
+      border-radius: 0 6px 6px 0;
+      color: var(--text); font-size: 0.9rem;
+    }
+    .sidebar-content blockquote p { color: var(--text); margin-bottom: 0; }
+    .sidebar-content hr {
+      border: none; border-top: 1px solid var(--border); margin: 2rem 0;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    .table-wrap table {
+      margin-bottom: 0;
+    }
+    .sidebar-content table {
+      width: 100%; border-collapse: collapse; font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-content th {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0.75rem 1rem; text-align: left; color: var(--muted);
+      border-bottom: 1px solid var(--border); background: var(--bg3);
+      white-space: nowrap;
+    }
+    .sidebar-content td {
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      word-break: break-word;
+    }
+    .sidebar-content img {
+      max-width: 100%; border-radius: 8px; border: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+    .sidebar-content details {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .sidebar-content summary {
+      font-family: var(--mono); font-size: 0.85rem;
+      cursor: pointer; color: var(--accent2);
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--bg3); padding: 0.75rem 1rem;
+      margin-bottom: 1rem; border-radius: 0 6px 6px 0;
+      font-size: 0.9rem; color: var(--text);
+    }
+    .callout-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      display: block; margin-bottom: 0.25rem;
+    }
+    .callout-note { border-left-color: var(--accent); }
+    .callout-note .callout-title { color: var(--accent); }
+    .callout-tip { border-left-color: var(--green); }
+    .callout-tip .callout-title { color: var(--green); }
+    .callout-warning { border-left-color: #f59e0b; }
+    .callout-warning .callout-title { color: #f59e0b; }
+    .callout-caution { border-left-color: #f59e0b; }
+    .callout-caution .callout-title { color: #f59e0b; }
+    .callout-important { border-left-color: #ef4444; }
+    .callout-important .callout-title { color: #ef4444; }
+    .doc-nav-buttons {
+      display: flex; justify-content: space-between; gap: 1rem;
+      margin: 2rem 0 1rem;
+    }
+    .doc-nav-btn {
+      padding: 0.5rem 1rem; border-radius: 8px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid var(--border);
+      transition: all 0.15s; max-width: 50%;
+    }
+    .doc-nav-btn:hover {
+      color: var(--text); border-color: var(--muted);
+    }
+    .doc-nav-next {
+      margin-left: auto; text-align: right;
+    }
+    .doc-nav-prev {
+      text-align: left;
+    }
+    .doc-copyright {
+      font-size: 0.78rem; color: var(--border2);
+      padding-top: 1rem; border-top: 1px solid var(--border);
+      margin-top: 1.5rem; text-align: center;
+    }
+    .doc-copyright a {
+      color: var(--border2); text-decoration: none;
+    }
+    .doc-copyright a:hover {
+      color: var(--muted);
+    }
+    .nav-overlay {
+      display: none; position: fixed;
+      top: 56px; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 199;
+    }
+    .nav-overlay.active { display: block; }
+
+    .sidebar-close {
+      display: none;
+      position: absolute; top: 0.5rem; right: 1rem;
+      background: none; border: none;
+      color: var(--muted); font-size: 1.5rem;
+      cursor: pointer; padding: 0.25rem 0.5rem;
+      line-height: 1; border-radius: 4px;
+    }
+    .sidebar-close:hover {
+      color: var(--text); background: var(--bg3);
+    }
+
+    .doc-breadcrumb {
+      display: none;
+      position: sticky;
+      top: 56px;
+      z-index: 50;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      user-select: none;
+      cursor: pointer;
+    }
+    .doc-breadcrumb .bc-sep {
+      color: var(--border2);
+    }
+    .doc-breadcrumb .bc-section {
+      color: var(--text);
+    }
+    .doc-breadcrumb .bc-label {
+      color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        display: flex;
+        position: fixed; top: 56px; left: 0;
+        width: 300px; height: calc(100dvh - 56px); z-index: 200;
+        border-right: 1px solid var(--border);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-close { display: block; }
+      .sidebar-content { padding: 1.5rem 1rem 3rem; }
+      .doc-breadcrumb { display: flex; }
+      .docs-layout { flex-direction: column; }
+      .sidebar-content th,
+      .sidebar-content td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+    <nav aria-label="Main navigation">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:100%;">
+      <a href="/" class="nav-logo">
+        <svg class="logo-icon" viewBox="8.25 10.35 31.5 27.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36.85 30.16H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 34.97c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.85 21.00H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 25.82c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.84 11.74H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 16.57c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+        </svg>
+        <span class="logo-text">Droidspaces</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <ul class="nav-links">
+          <li class="nav-features"><a href="/#features">Features</a></li>
+          <li><a href="/docs/" style="color:var(--accent2)"><i class="fas fa-book nav-icon nav-icon-docs"></i><span class="nav-label">Documentation</span></a></li>
+          <li class="nav-downloads"><a href="/downloads.html"><i class="fas fa-download nav-icon nav-icon-docs"></i><span class="nav-label">Downloads</span></a></li>
+          <li><a href="https://github.com/ravindu644/Droidspaces-OSS" rel="noopener noreferrer"><i class="fab fa-github nav-icon"></i><span class="nav-label nav-label-gt">GitHub</span></a></li>
+          <li><a href="https://t.me/Droidspaces" rel="noopener noreferrer"><i class="fab fa-telegram nav-icon"></i><span class="nav-label nav-label-gt">Telegram</span></a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="sidebar-overlay"></div>
+
+  <div class="doc-breadcrumb" id="sidebar-toggle" role="button" tabindex="0" aria-label="Toggle docs navigation">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <line x1="9" y1="3" x2="9" y2="21"/>
+    </svg>
+    <span>Docs</span><span class="bc-sep">/</span><span class="bc-section">Reference</span><span class="bc-sep">/</span><span class="bc-label">Supported Devices</span>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">&times;</button>
+<div class="sidebar-group">
+<div class="sidebar-heading">Basics</div>
+<a href="getting-started.html" class="sidebar-link">Getting Started</a>
+<a href="installation-android.html" class="sidebar-link">Android Installation</a>
+<a href="installation-linux.html" class="sidebar-link">Linux Installation</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Guides</div>
+<a href="features.html" class="sidebar-link">Features Deep Dive</a>
+<a href="gpu-acceleration.html" class="sidebar-link">GPU Acceleration</a>
+<a href="kernel-configuration.html" class="sidebar-link">Kernel Configuration</a>
+<a href="usage-android-app.html" class="sidebar-link">Android App Usage</a>
+<a href="linux-cli.html" class="sidebar-link">Linux CLI Usage</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Recipes</div>
+<a href="cool-things-you-can-do.html" class="sidebar-link">Cool Things You Can Do</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Reference</div>
+<a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+<a href="common-errors.html" class="sidebar-link">Common Errors</a>
+<a href="community-supported-devices.html" class="sidebar-link active">Supported Devices</a>
+<a href="nix-nixos.html" class="sidebar-link">Nix / NixOS</a>
+<a href="uninstallation.html" class="sidebar-link">Uninstallation</a>
+</div>
+      </div>
+    </aside>
+    <div class="sidebar-content">
+<h1 id="community-supported-android-devices">Community-supported Android devices</h1>
+<div class="callout callout-note"><strong class="callout-title">NOTE</strong> If you want to add your own Droidspaces kernel to this table, check out the <a href="#contribution-guidelines" rel="noopener noreferrer">Contribution guidelines</a> section.</div>
+<p>This document is a community-maintained compatibility list for Android devices known to run Droidspaces successfully. It is intended to help people choose phones for self-hosting, especially when buying second-hand hardware.</p>
+<h2 id="non-gki-devices-kernel-419-and-lower">Non-GKI Devices (Kernel 4.19 and lower)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr><th>Device Name</th><th>Model Number</th><th>Android / ROM</th><th>Baseband / Build</th><th>Kernel version</th><th>Root Method</th><th>Kernel Source</th><th>Download Link</th><th>Droidspaces Mode</th><th>GPU Acceleration</th><th>Status</th><th>Maintainer</th><th>Additional notes</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Galaxy S10 (Japanese variant)</strong></td><td>SCV41 / SM-G973J</td><td>One UI 4.1 - Android 12</td><td><code>SCV41KDU1DWC1</code></td><td><code>4.14.190</code></td><td>KernelSU-Next v3.1.0</td><td><a href="https://github.com/ravindu644/samsung_kernel_SCV41_droidspaces" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/ravindu644/samsung_kernel_SCV41_droidspaces/releases/download/v2/Droidspaces-KSUN-Samsung-SCV41.tar" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/ravindu644" rel="noopener noreferrer">@ravindu644</a></td><td>-</td></tr>
+<tr><td><strong>Poco X2</strong></td><td>M1912G7Bx</td><td>BlissROM-v16.5 - Android 13</td><td>-</td><td><code>4.14.274</code></td><td>KernelSU-Next v1.1.1</td><td><a href="https://github.com/ravindu644/phoenix-blissROM-A13-droidspaces" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/ravindu644/phoenix-blissROM-A13-droidspaces/releases/download/v1/Droidspaces-KSUNv1.1.1-phoenix.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/ravindu644" rel="noopener noreferrer">@ravindu644</a></td><td>-</td></tr>
+<tr><td><strong>Realme 6, 6i, 6s</strong></td><td>RMX2001L1</td><td>RUI 2.0 - Android 11</td><td>-</td><td><code>4.14.336</code></td><td>KSU-Next v3.2.0 / ReSukiSU v4.1.0</td><td><a href="https://github.com/Prime-TITAN-CameraMan/android_kernel_realme_nemo" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/Prime-TITAN-CameraMan/android_kernel_realme_nemo/releases/tag/v1.1" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Virgl</td><td>Working</td><td><a href="https://github.com/Prime-TITAN-CameraMan" rel="noopener noreferrer">@Prime-TITAN-CameraMan</a></td><td>RUI 2.0 only & No Firewall Support (UFW/Fail2ban)</td></tr>
+<tr><td><strong>Redmi K20 Pro (China)</strong></td><td>M1903F11A</td><td>YAAP 16 - Banshee (Android 16)</td><td><code>1.0.c3-0061-1017_2229_f7c3bc9ce</code></td><td><code>4.14.353</code></td><td>KernelSU v3.2.4-gee75714a</td><td><a href="https://github.com/Alhkxsj/CRom-KSU-Builder" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/Alhkxsj/CRom-KSU-Builder/releases/download/raphael_YAAP-sixteen_KernelSU-by-xx_20260514_1438/raphael_YAAP-sixteen_KernelSU-by-xx_20260514_1438.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Alhkxsj" rel="noopener noreferrer">@Alhkxsj</a></td><td>Kernel source is stock YAAP kernel; Droidspaces configs applied via automated build workflow</td></tr>
+</tbody>
+</table></div>
+<h2 id="gki-devices-kernel-54-and-up">GKI Devices (Kernel 5.4 and up)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr><th>Device Name</th><th>Model Number</th><th>Android / ROM</th><th>Kernel version</th><th>Root Method</th><th>Kernel Source</th><th>Download Link</th><th>Droidspaces Mode</th><th>GPU Acceleration</th><th>Status</th><th>Maintainer</th><th>Additional notes</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Galaxy A16 5G</strong></td><td>SM-A166P</td><td>One UI 6.1 - Android 14</td><td><code>5.15.148</code></td><td>KernelSU-Next v3.1.0</td><td><a href="https://github.com/ravindu644/android_kernel_a166p" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/ravindu644/android_kernel_a166p/releases/download/r20260402-c17abb78/KernelSU-SM-A166P-OneUI6-A166PXXS4AYC1-r20260402-c17abb78.tar.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Virgl only</td><td>Working</td><td><a href="https://github.com/ravindu644" rel="noopener noreferrer">@ravindu644</a></td><td>-</td></tr>
+<tr><td><strong>Galaxy A16 5G</strong></td><td>SM-A166P</td><td>One UI 7.0 - Android 15</td><td><code>5.15.167</code></td><td>KernelSU-Next v1.1.1</td><td><a href="https://github.com/ravindu644/android_kernel_a166p" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/ravindu644/android_kernel_a166p/releases/download/ubuntu-x-docker/Ubuntu-x-KernelSU-Next-SM-A166P-dev.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Virgl only</td><td>Working</td><td><a href="https://github.com/ravindu644" rel="noopener noreferrer">@ravindu644</a></td><td>-</td></tr>
+<tr><td><strong>Galaxy M14 4G</strong></td><td>SM-M145F</td><td>One UI 7.0 - Android 15</td><td><code>5.15.167</code></td><td>KernelSU-Next v1.1.1</td><td><a href="https://github.com/ravindu644/android_kernel_sm_m145f" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/ravindu644/android_kernel_sm_m145f/releases/download/v1/SM-M145F-Droidspaces-KSUNv1.1.1-M145FXXS8DYH1.tar.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/ravindu644" rel="noopener noreferrer">@ravindu644</a></td><td>-</td></tr>
+<tr><td><strong>Galaxy A25 5G</strong></td><td>SM-A253Z</td><td>One UI 8.0 - Android 16</td><td><code>5.15.180</code></td><td>Magisk</td><td><a href="https://github.com/yoshi3jp/android_kernel_samsung_a25ex_mt6835" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/yoshi3jp/android_kernel_samsung_a25ex_mt6835/releases/download/r20260421-89a95a08/DroidSpaces-SM-A253Z-OneUI8-A253ZSCS1BZA2-r20260421-89a95a08.tar.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>none</td><td>Working</td><td><a href="https://github.com/yoshi3jp" rel="noopener noreferrer">@yoshi3jp</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Pad 2 Pro(Chinese variant)</strong></td><td>OPD2413</td><td>ColorOS 16.0 - Android 16</td><td><code>6.6.89</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.89_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus Pad 3</td></tr>
+<tr><td><strong>OnePlus 13(Chinese variant)</strong></td><td>PJZ110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.6.89</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.89_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>OnePlus 13(Chinese variant)</strong></td><td>PJZ110</td><td>ColorOS 15.0 - Android 15</td><td><code>6.6.66</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.66_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>OnePlus Ace 5 Pro(Chinese variant)</strong></td><td>PKR110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.6.89</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.89_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 5 Pro(Chinese variant)</strong></td><td>PKR110</td><td>ColorOS 15.0 - Android 15</td><td><code>6.6.66</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.66_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus 13T(Chinese variant)</strong></td><td>PKX110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.6.89</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.89_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus 13T(Chinese variant)</strong></td><td>PKX110</td><td>ColorOS 15.0 - Android 15</td><td><code>6.6.66</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.66_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 6(Chinese variant)</strong></td><td>PLR110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.6.89</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8750" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.6.89_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 3 Pro(Chinese variant)</strong></td><td>PJX110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.141</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.141_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 3 Pro(Chinese variant)</strong></td><td>PJX110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.118</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.118_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 5 (Chinese variant)</strong></td><td>PKG110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.141</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.141_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus 13R</td></tr>
+<tr><td><strong>OnePlus Ace 5 (Chinese variant)</strong></td><td>PKG110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.118</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.118_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus 13R</td></tr>
+<tr><td><strong>OnePlus 12(Chinese variant)</strong></td><td>PJD110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.141</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.141_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>OnePlus 12(Chinese variant)</strong></td><td>PJD110</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.118</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.118_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>OnePlus Pad Pro(Chinese variant)</strong></td><td>OPD2407</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.141</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.141_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus Pad 2 (International version)</td></tr>
+<tr><td><strong>OnePlus Pad Pro(Chinese variant)</strong></td><td>OPD2407</td><td>ColorOS 16.0 - Android 16</td><td><code>6.1.118</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.118_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus Pad 2 (International version)</td></tr>
+<tr><td><strong>Realme GT 5 Pro(Chinese variant)</strong></td><td>RMX3888</td><td>RealmeUI 7.0 - Android 16</td><td><code>6.1.141</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_6.1.118_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus Ace 3 (Chinese variant)</strong></td><td>PJE110</td><td>ColorOS 16.0 - Android 16</td><td><code>5.15.180</code></td><td>none</td><td><a href="https://github.com/Numbersf/Action-Build" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_5.15.180_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus 12R</td></tr>
+<tr><td><strong>OnePlus Ace 3 (Chinese variant)</strong></td><td>PJE110</td><td>ColorOS 15.0 - Android 15</td><td><code>5.15.167</code></td><td>none</td><td><a href="https://github.com/Numbersf/Action-Build" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_oki_5.15.167_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Suitable for OnePlus 12R</td></tr>
+<tr><td><strong>OnePlus Ace 竞速版 (Chinese variant)</strong></td><td>PGZ110</td><td>ColorOS 15.0 - Android 15</td><td><code>5.10.167</code></td><td>Resukisu</td><td><a href="https://github.com/Numbersf/Action-Build" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/OKI%E5%86%85%E6%A0%B8/AnyKernel3_ReSukiSU_oki_5.10.226_Gold_bug_%E5%A4%A9%E7%8E%91%E7%89%B9%E4%BE%9B.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>bridge & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>OnePlus SM8650 (All LineageOS OnePlus 6.1 Devices)</strong></td><td>SM8650</td><td>LineageOS 23.2 - Android 16 QPR 2</td><td><code>6.1.166</code></td><td>none</td><td><a href="https://github.com/LineageOS/android_kernel_oneplus_sm8650" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/linx3141/CRom-KSU-Builder/releases/tag/sm8650_LineageOS-lineage-23.2_None_20260512_1647" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/linx3141" rel="noopener noreferrer">@linx3141</a></td><td>-</td></tr>
+<tr><td><strong>Xiaomi 17 (Chinese variant)</strong></td><td>25113PN0EC</td><td>HyperOS 3.0 - Android 16</td><td><code>6.12.23</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8850" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.12.23_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>Xiaomi 17 Pro (Chinese variant)</strong></td><td>2509FPN0BC</td><td>HyperOS 3.0 - Android 16</td><td><code>6.12.23</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8850" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.12.23_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>Xiaomi 17 Pro max (Chinese variant)</strong></td><td>25113PN0EC</td><td>HyperOS 3.0 - Android 16</td><td><code>6.12.23</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8850" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.12.23_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>红魔 11 Pro (Chinese variant)</strong></td><td>NX809J</td><td>RedMagicOS11 - Android 16</td><td><code>6.12.23</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8850" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.12.23_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>HONOR Magic Pad 3 Pro 13.3(Chinese variant)</strong></td><td>YLP-W00</td><td>MagicOS10 - Android 16</td><td><code>6.12.23</code></td><td>none</td><td><a href="https://github.com/cctv18/oppo_oplus_realme_sm8850" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.12.23_Gold_bug.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Goldzxcbug" rel="noopener noreferrer">@Goldzxcbug</a></td><td>-</td></tr>
+<tr><td><strong>Xiaomi Pad 8 Pro (Chinese variant)</strong></td><td>25091RP04C</td><td>HyperOS 3.0 - Android 16</td><td><code>6.6.77</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.6.77_NTsync_github%40404-GCross.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/404-GCross" rel="noopener noreferrer">404-GCross</a></td><td>Applicable to the international version <br> Supports NTsync</td></tr>
+<tr><td><strong>Xiaomi 15 (Chinese variant)</strong></td><td>24129PN74C</td><td>HyperOS 3.0 - Android 16</td><td><code>6.6.77</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_6.6.77_NTsync_github%40404-GCross.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/404-GCross" rel="noopener noreferrer">404-GCross</a></td><td>Applicable to the international version <br> Supports NTsync</td></tr>
+<tr><td><strong>Xiaomi 14 (Chinese variant)</strong></td><td>23127PN0CC</td><td>HyperOS 3.0 - Android 16</td><td><code>6.1.138</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_Resukisu_gki_6.1.138_coolapk%40%E7%88%B1%E4%BD%A0%E4%B9%88%E4%B9%88%E5%93%92qcjl%E5%93%9F.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://www.coolapk.com/u/29859482" rel="noopener noreferrer">爱你么么哒qcjl哟</a></td><td>Applicable to the international version</td></tr>
+<tr><td><strong>红魔 9 Pro (Chinese variant)</strong></td><td>NX769J</td><td>RedMagicOS11 - Android 16</td><td><code>6.1.124</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_Resukisu_gki_6.1.124_KPM_BBG_RE-kernel_%E7%BA%A2%E9%AD%949pro_github%40sjszero.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/sjszero" rel="noopener noreferrer">@sjszero</a></td><td>-</td></tr>
+<tr><td><strong>红魔 9 SPro+ (Chinese variant)</strong></td><td>NX769J</td><td>RedMagicOS11 - Android 16</td><td><code>6.1.25</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_Resukisu_gki_6.1.25_KPM_BBG_RE-kernel_%E7%BA%A2%E9%AD%949spro%2B_github%40sjszero.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/sjszero" rel="noopener noreferrer">@sjszero</a></td><td>-</td></tr>
+<tr><td><strong>Xiaomi Pad 6S Pro (Chinese variant)</strong></td><td>24018RPACC</td><td>HyperOS 3.0 - Android 16</td><td><code>5.15.178</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/Anykernel3_Resukisu_gki_NTsync_5.15.178_github%40mlfc666.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/mlfc666" rel="noopener noreferrer">@mlfc666</a></td><td>Applicable to the international version <br> Supports NTsync</td></tr>
+<tr><td><strong>Redmi K70 (Chinese variant)</strong></td><td>23113RKC6C</td><td>HyperOS 3.0 - Android 16</td><td><code>5.15.178</code></td><td>Resukisu</td><td><a href="https://github.com/zzh20188/GKI_KernelSU_SUSFS" rel="noopener noreferrer">Source</a></td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/Anykernel3_Resukisu_gki_NTsync_5.15.178_github%40mlfc666.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/mlfc666" rel="noopener noreferrer">@mlfc666</a></td><td>Supports NTsync</td></tr>
+<tr><td><strong>Xiaomi Pad 6 Max (Chinese variant)</strong></td><td>2307BRPDCC</td><td>HyperOS 3.0 - Android 15</td><td><code>5.10.252</code></td><td>none</td><td>Locally compiled</td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_5.10.252_NTsync_Kswapd%E8%A7%A3%E8%80%A6_github%40Star-ZER0.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Star-ZER0" rel="noopener noreferrer">@Star-ZER0</a></td><td>Supports NTsync</td></tr>
+<tr><td><strong>Xiaomi Pad 6 Pro (Chinese variant)</strong></td><td>2307BRPDCC</td><td>HyperOS 3.0 - Android 15</td><td><code>5.10.252</code></td><td>none</td><td>Locally compiled</td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_5.10.252_NTsync_Kswapd%E8%A7%A3%E8%80%A6_github%40Star-ZER0.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Star-ZER0" rel="noopener noreferrer">@Star-ZER0</a></td><td>Supports NTsync</td></tr>
+<tr><td><strong>Redmi K60 (Chinese variant)</strong></td><td>23013RK75C</td><td>HyperOS 3.0 - Android 15</td><td><code>5.10.252</code></td><td>none</td><td>Locally compiled</td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_5.10.252_NTsync_Kswapd%E8%A7%A3%E8%80%A6_github%40Star-ZER0.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Star-ZER0" rel="noopener noreferrer">@Star-ZER0</a></td><td>Supports NTsync</td></tr>
+<tr><td><strong>Redmi K50 Ultra (Chinese variant)</strong></td><td>22081212C</td><td>HyperOS 3.0 - Android 15</td><td><code>5.10.252</code></td><td>none</td><td>Locally compiled</td><td><a href="https://raw.githubusercontent.com/Goldzxcbug/Droidspaces-kernel/refs/heads/main/GKI%E5%86%85%E6%A0%B8/AnyKernel3_gki_5.10.252_NTsync_Kswapd%E8%A7%A3%E8%80%A6_github%40Star-ZER0.zip" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/Star-ZER0" rel="noopener noreferrer">@Star-ZER0</a></td><td>Supports NTsync</td></tr>
+<tr><td><strong>Xiaomi 11T Pro (vili)</strong></td><td>2107113</td><td>DerpFest A16</td><td><code>5.4</code></td><td>KernelSU-Next</td><td><a href="https://github.com/loystonpais/android_kernel_qcom_sm8350" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/loystonpais/android_kernel_qcom_sm8350/releases/latest" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/loystonpais" rel="noopener noreferrer">@loystonpais</a></td><td>-</td></tr>
+<tr><td><strong>Redmi Note 13 4G / NFC</strong></td><td>23124RA7EO</td><td>HyperOS 2.0 - Android 15</td><td><code>5.15.202</code></td><td>Wild-KSU v3.1.2</td><td><a href="https://github.com/superuseryu/kernel_sapphire_SM6225" rel="noopener noreferrer">Source</a></td><td><a href="https://github.com/superuseryu/kernel_sapphire_SM6225/releases/tag/v1.5.2%2B_R27" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip</td><td>Working</td><td><a href="https://github.com/superuseryu" rel="noopener noreferrer">@superuseryu</a></td><td>Other KSU variants may fail due to SELinux context reset.</td></tr>
+<tr><td><strong>Nothing Phone (1)</strong></td><td>A063</td><td>crDroid - Android 16</td><td><code>5.4.302</code></td><td>KernelSU-Next</td><td><a href="https://https://github.com/crdroidandroid/android_kernel_nothing_sm7325" rel="noopener noreferrer">Source</a></td><td><a href="https://crdroid.net/Spacewar/12" rel="noopener noreferrer">Download</a></td><td>Both</td><td>Turnip & Virgl</td><td>Working</td><td><a href="https://github.com/MySelly" rel="noopener noreferrer">@MySelly</a></td><td>-</td></tr>
+</tbody>
+</table></div>
+<h2 id="contribution-guidelines">Contribution guidelines</h2>
+<p>To keep this list useful and reliable, please follow these rules when adding or updating entries:</p>
+<ul>
+<li>Add one device per row.</li>
+<li>Fill every column completely.</li>
+<li>Contributions should be honest, complete, and verifiable.</li>
+<li>Provide a direct downloadable kernel archive (<code>zip</code>, <code>tar</code>, <code>img</code>) or a downloadable kernel package; inexperienced users should not need to compile the kernel themselves.</li>
+<li>Provide the exact source code link for your Droidspaces kernel in the Kernel Source column.</li>
+<li>Document the exact <code>Baseband / Build</code> string (Mandatory for Non-GKI devices only).</li>
+<li>Specify the <code>Root Method</code> used, such as <code>Magisk</code>, <code>KernelSU</code>, <code>APatch</code> or <code>none</code>.(Compile only the kernel without adding any implementation methods; you need to patch <code>init_boot</code> yourself to achieve root.)</li>
+<li>Set <code>Status</code> to one of: <code>Working</code>, <code>Partial</code>, or <code>Unusable</code>.</li>
+<li>In Notes, include known quirks and issues, additional setup steps, and recommended workloads.</li>
+<li>Submit contributions through GitHub pull requests.</li>
+<li>Update entries when status changes, and keep the information current.</li>
+</ul>
+<div class="doc-nav-buttons"><a href="common-errors.html" class="doc-nav-btn doc-nav-prev">← Common Errors</a><a href="nix-nixos.html" class="doc-nav-btn doc-nav-next">Nix / NixOS →</a></div>
+      <p class="doc-copyright">&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>
+</p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const themeToggle = document.getElementById('theme-toggle');
+      const sunIcon = themeToggle.querySelector('.sun-icon');
+      const moonIcon = themeToggle.querySelector('.moon-icon');
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+      function updateIcons(theme) {
+        sunIcon.style.display = theme === 'light' ? 'none' : 'block';
+        moonIcon.style.display = theme === 'light' ? 'block' : 'none';
+      }
+      function getEffectiveTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return mediaQuery.matches ? 'light' : 'dark';
+      }
+      function applyTheme(theme) {
+        if (theme === 'system') {
+          document.documentElement.removeAttribute('data-theme');
+          updateIcons(mediaQuery.matches ? 'light' : 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+          updateIcons(theme);
+        }
+      }
+      applyTheme(getEffectiveTheme());
+      mediaQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'light' : 'dark');
+      });
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = getEffectiveTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+      });
+      // Docs sidebar toggle
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (sidebar.classList.contains('open')) closeSidebar();
+          else openSidebar();
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+
+      const sidebarClose = document.getElementById('sidebar-close');
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', closeSidebar);
+      }
+
+      if (sidebar) {
+        sidebar.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeSidebar);
+        });
+      }
+    })();
+    function copyCode(btn) {
+      const code = btn.parentElement.querySelector('pre code');
+      const text = code.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

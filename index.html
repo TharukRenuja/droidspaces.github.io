@@ -4,15 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Lightweight portable Linux containerization for Android and Linux">
+  <meta name="description" content="Lightweight Linux container runtime for Android and Linux. Run full environments with systemd/OpenRC. True PID namespace isolation, ~400KB binary, zero dependencies.">
   <title>Droidspaces: Linux Containers for Android</title>
+  <meta property="og:title" content="Droidspaces: Linux Containers for Android">
+  <meta property="og:description" content="Lightweight Linux container runtime for Android and Linux. Run full environments with systemd/OpenRC. True PID namespace isolation, ~400KB binary, zero dependencies.">
+  <meta property="og:url" content="https://www.droidspaces.org">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Droidspaces: Linux Containers for Android">
+  <meta name="twitter:description" content="Lightweight Linux container runtime for Android and Linux. Run full environments with systemd/OpenRC. True PID namespace isolation, ~400KB binary, zero dependencies.">
+  <link rel="canonical" href="https://www.droidspaces.org">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://github.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='8.25 10.35 31.5 27.3'%3E%3Cpath d='M36.85 30.16H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 34.97c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z' fill='%234F8EF7' /%3E%3Cpath d='M36.85 21.00H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 25.82c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z' fill='%234F8EF7' /%3E%3Cpath d='M36.84 11.74H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 16.57c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z' fill='%234F8EF7' /%3E%3C/svg%3E">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.ico">
   <script>
     (function () {
       const savedTheme = localStorage.getItem('theme');
@@ -21,40 +33,85 @@
       }
     })();
   </script>
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Droidspaces",
+    "url": "https://www.droidspaces.org",
+    "description": "Droidspaces is a lightweight, portable Linux container runtime for Android and Linux. Run full Linux environments with systemd or OpenRC as PID 1. True PID/MNT/UTS/IPC/Cgroup namespace isolation, zero dependencies, single ~400KB static binary compiled against musl libc. Supports aarch64, armhf, x86_64, x86, and riscv64. A native alternative to LXC and Docker for Android with unkillable container persistence, GPU acceleration via Turnip, and a Material 3 management app.",
+    "applicationCategory": "DeveloperApplication",
+    "applicationSubCategory": "Containerization, Virtualization, Android Development Tools",
+    "operatingSystem": "Android, Linux, Android Recovery, Ramdisk",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "downloadUrl": "https://github.com/ravindu644/Droidspaces-OSS/releases/latest",
+    "featureList": [
+      "Full namespace isolation (PID, MNT, UTS, IPC, Cgroup)",
+      "systemd and OpenRC init support as PID 1",
+      "Single 400KB static binary with zero dependencies",
+      "GPU acceleration with Turnip on Android",
+      "Unkillable container daemons for persistence",
+      "Network isolation with NAT, Veth pairs, or air-gapped",
+      "USB, block device, sensor, serial device access",
+      "Portable rootfs.img support",
+      "Material 3 management app with built-in terminal"
+    ],
+    "fileSize": "400KB",
+    "softwareVersion": "6.1.5",
+    "license": "https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE",
+    "sameAs": [
+      "https://github.com/ravindu644/Droidspaces-OSS",
+      "https://t.me/Droidspaces"
+    ],
+    "keywords": "Linux container, Android container, container runtime, namespace isolation, LXC alternative, Docker alternative, systemd container, OpenRC, Android Linux chroot, musl libc static binary, portable Linux environment, Android containerization, Linux namespaces, privileged container, GPU acceleration Android, Turnip Adreno, KernelSU, OverlayFS volatile container, nested containers Docker-in-Droidspaces, init system PID 1"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Droidspaces",
+    "url": "https://www.droidspaces.org",
+    "description": "Droidspaces is a lightweight, portable Linux container runtime for Android and Linux. Run full Linux environments with systemd or OpenRC as PID 1. True namespace isolation, zero dependencies, single ~400KB static binary.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://github.com/ravindu644/Droidspaces-OSS/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  }
+]
+</script>
 </head>
 
 <body>
 
-  <nav>
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between; height: 100%;">
+<!--NAV_START-->
+  <nav aria-label="Main navigation">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:100%;">
       <a href="/" class="nav-logo">
         <svg class="logo-icon" viewBox="8.25 10.35 31.5 27.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M36.85 30.16H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 34.97c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" />
-          <path
-            d="M36.85 21.00H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 25.82c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" />
-          <path
-            d="M36.84 11.74H11.15c-0.82 0 -1.48 0.68 -1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48 -0.68 1.48 -1.52v-3.05c0 -0.84 -0.66 -1.52 -1.48 -1.52ZM12.58 16.57c-0.95 0 -1.73 -0.79 -1.73 -1.77s0.77 -1.77 1.73 -1.77 1.73 0.79 1.73 1.77 -0.77 1.77 -1.73 1.77Z" />
+          <path d="M36.85 30.16H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 34.97c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.85 21.00H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 25.82c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.84 11.74H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 16.57c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
         </svg>
         <span class="logo-text">Droidspaces</span>
       </a>
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <button class="mobile-menu-btn" id="menu-toggle" aria-label="Menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-        </button>
-        <ul class="nav-links" id="nav-links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="https://github.com/ravindu644/Droidspaces-OSS">GitHub</a></li>
-          <li><a href="https://t.me/Droidspaces">Telegram</a></li>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <ul class="nav-links">
+          <li class="nav-features"><a href="#features">Features</a></li>
+          <li><a href="/docs/" ><i class="fas fa-book nav-icon nav-icon-docs"></i><span class="nav-label">Documentation</span></a></li>
+          <li class="nav-downloads"><a href="/downloads.html"><i class="fas fa-download nav-icon nav-icon-docs"></i><span class="nav-label">Downloads</span></a></li>
+          <li><a href="https://github.com/ravindu644/Droidspaces-OSS" rel="noopener noreferrer"><i class="fab fa-github nav-icon"></i><span class="nav-label nav-label-gt">GitHub</span></a></li>
+          <li><a href="https://t.me/Droidspaces" rel="noopener noreferrer"><i class="fab fa-telegram nav-icon"></i><span class="nav-label nav-label-gt">Telegram</span></a></li>
         </ul>
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            style="display:none">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -73,6 +130,13 @@
     </div>
   </nav>
 
+<!--NAV_END-->
+
+
+
+
+
+  <main>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
@@ -94,8 +158,8 @@
           ~400KB binary. Zero dependencies.
         </p>
         <div class="hero-cta">
-          <a href="https://github.com/ravindu644/Droidspaces-OSS/releases/latest" class="btn btn-primary">↓ Download</a>
-          <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Installation-Android.md"
+          <a href="/downloads.html" class="btn btn-primary">↓ Download</a>
+          <a href="/docs/getting-started.html"
             class="btn btn-ghost">Get Started →</a>
         </div>
       </div>
@@ -382,7 +446,7 @@
             <li>Kernel 3.10 or newer</li>
             <li>Rooted device (KernelSU, Magisk, or APatch)</li>
             <li><a
-                href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/Documentation/Kernel-Configuration.md">Custom
+                href="/docs/Kernel-Configuration.html">Custom
                 kernel configuration</a></li>
             <li>ARM64, ARMhf, x86_64, or x86</li>
           </ul>
@@ -409,19 +473,21 @@
       <h2>Ready to run real containers?</h2>
       <p class="section-desc">Download the APK or read the docs to get up and running in minutes.</p>
       <div class="cta-btns">
-        <a href="https://github.com/ravindu644/Droidspaces-OSS/releases/latest" class="btn btn-primary">↓ Download</a>
-        <a href="https://github.com/ravindu644/Droidspaces-OSS" class="btn btn-ghost">GitHub</a>
-        <a href="https://t.me/Droidspaces" class="btn btn-ghost">Telegram</a>
+        <a href="/downloads.html" class="btn btn-primary">↓ Download</a>
+        <a href="https://github.com/ravindu644/Droidspaces-OSS" class="btn btn-ghost" rel="noopener noreferrer">GitHub</a>
+        <a href="https://t.me/Droidspaces" class="btn btn-ghost" rel="noopener noreferrer">Telegram</a>
       </div>
     </div>
   </section>
 
+  </main>
+
+<!--FOOTER-->
   <footer>
-    <p>&copy; 2026 Droidspaces &nbsp;·&nbsp; <a
-        href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE">GPLv3</a> &nbsp;·&nbsp; by <a
-        href="https://github.com/ravindu644">ravindu644</a> and <a
-        href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors">contributors</a></p>
+    &copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>
+
   </footer>
+<!--/FOOTER-->
 
   <script>
     (() => {
@@ -532,30 +598,6 @@
 
         localStorage.setItem('theme', newTheme);
         applyTheme(newTheme);
-      });
-
-      // Mobile Menu Toggle
-      const menuToggle = document.getElementById('menu-toggle');
-      const navLinks = document.getElementById('nav-links');
-
-      menuToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
-          navLinks.classList.remove('active');
-          menuToggle.classList.remove('active');
-        }
-      });
-
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('active');
-          menuToggle.classList.remove('active');
-        });
       });
     })();
   </script>

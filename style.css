@@ -84,7 +84,6 @@
       color: var(--muted);
       cursor: pointer;
       padding: 0.25rem;
-      margin-left: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -151,7 +150,7 @@
       transform: translateY(-1px);
       white-space: nowrap;
     }
-    .nav-links { display: flex; gap: 0.25rem; list-style: none; align-items: center; }
+    .nav-links { display: flex; gap: 0.5rem; list-style: none; align-items: center; }
     .nav-links a {
       padding: 0.35rem 0.75rem;
       border-radius: 6px;
@@ -160,20 +159,17 @@
       font-size: 0.85rem;
       font-weight: 500;
       transition: color 0.15s, background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-icon {
+      font-size: 16px;
+      flex-shrink: 0;
     }
     .nav-links a:hover { color: var(--text); background: var(--bg3); }
 
-    .mobile-menu-btn {
-      display: none !important;
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 0.5rem;
-      margin: 0;
-      line-height: 0;
-    }
-    .mobile-menu-btn svg { width: 24px; height: 24px; }
+    nav .container { max-width: none; }
 
     /* HERO */
     .hero {
@@ -471,31 +467,213 @@
     .cta-section p { color: var(--muted); margin-bottom: 2rem; text-align: left; }
     .cta-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-start; }
 
+    /* MOBILE SIDEBAR OVERLAY */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+    }
+    .nav-overlay.active { display: block; }
+
+    /* DOWNLOADS PAGE */
+    .download-hero {
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .download-hero h1 {
+      font-family: var(--mono);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+    }
+    .download-hero .hero-desc {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .dl-btns {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .dl-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .dl-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 1.75rem;
+      text-align: center;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .dl-card:hover {
+      border-color: var(--accent2);
+      transform: translateY(-2px);
+    }
+    .dl-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent2);
+    }
+    .dl-card-icon .fa-android { color: #3ddc84; }
+    .dl-card-icon .fa-linux { color: var(--accent2); }
+    .dl-card-title {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .dl-card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .dl-card-btn { width: 100%; justify-content: center; }
+    @media (max-width: 600px) {
+      .dl-cards { grid-template-columns: 1fr; }
+    }
+    .changelog-wrap {
+      position: relative;
+    }
+    .changelog {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-height: 200px;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .changelog.expanded { max-height: none; }
+    .changelog-toggle {
+      display: block;
+      margin: 0.75rem auto 0;
+      background: none;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .changelog-toggle:hover { color: var(--text); border-color: var(--muted); }
+    .changelog h2, .changelog h3 {
+      font-family: var(--mono);
+      color: var(--text);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .changelog h2:first-child, .changelog h3:first-child { margin-top: 0; }
+    .changelog ul { padding-left: 1.5rem; }
+    .changelog li { margin-bottom: 0.3rem; }
+    .changelog code {
+      background: var(--bg3);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+    }
+    .changelog a { color: var(--accent2); }
+    .patch-group {
+      margin-bottom: 2rem;
+    }
+    .patch-group-title {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .patch-subgroup {
+      margin-left: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .patch-subgroup-title {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+    }
+    .patch-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .patch-list a {
+      font-size: 0.8rem;
+      font-family: var(--mono);
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      display: inline-block;
+      transition: color 0.15s, background 0.15s;
+    }
+    .patch-list a:hover {
+      color: var(--text);
+      background: var(--bg3);
+    }
+    .patch-list a::before {
+      content: '\f019';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-right: 0.4rem;
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+    .dl-secondary {
+      font-size: 0.8rem;
+      color: var(--accent2);
+      text-decoration: none;
+    }
+    .dl-secondary:hover { text-decoration: underline; }
+    .older-versions table td:last-child { text-align: right; }
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .mobile-menu-btn { display: flex !important; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: var(--bg);
-        border-bottom: 1px solid var(--border);
-        flex-direction: column;
-        padding: 1rem;
-        gap: 0.5rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      }
-      .nav-links.active { display: flex; }
-      .nav-links a { width: 100%; text-align: left; padding: 0.75rem; }
-
+      .nav-features { display: none; }
+      .nav-downloads { display: none; }
+      .nav-label { display: none; }
+      .nav-links a { padding: 0.35rem 0.5rem; }
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
       .terminal { display: none; }
       .features-grid { grid-template-columns: 1fr; }
       .req-grid { grid-template-columns: 1fr; }
       nav { padding: 0 1rem; }
       .hero-stats { gap: 1.5rem; }
+      .download-hero { padding: 3rem 1rem 2.5rem; }
+      .download-hero h1 { font-size: 1.6rem; }
+      .changelog { padding: 1rem; margin: 0 -1rem; border-radius: 0; border-left: none; border-right: none; }
+      .patch-list a { word-break: break-all; font-size: 0.75rem; }
+      .patch-subgroup { margin-left: 0; }
+    }
+
+    @media (min-width: 769px) {
+      .nav-icon.nav-icon-docs { display: none; }
+      .nav-label.nav-label-gt { display: none; }
     }
     
 .flip-phrase {

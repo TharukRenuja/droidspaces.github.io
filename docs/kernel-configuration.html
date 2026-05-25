@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Complete guide to compiling a custom Android kernel with Droidspaces support. Covers non-GKI and GKI kernels with kABI-safe patches.">
+  <meta name="keywords" content="kernel configuration Droidspaces, GKI kABI patches, Android kernel compile, namespace kernel config">
+  <title>Kernel Configuration - Droidspaces Docs</title>
+  <meta property="og:title" content="Kernel Configuration - Droidspaces Docs">
+  <meta property="og:description" content="Complete guide to compiling a custom Android kernel with Droidspaces support. Covers non-GKI and GKI kernels with kABI-safe patches.">
+  <meta property="og:url" content="https://www.droidspaces.org/docs/kernel-configuration.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kernel Configuration - Droidspaces Docs">
+  <meta name="twitter:description" content="Complete guide to compiling a custom Android kernel with Droidspaces support. Covers non-GKI and GKI kernels with kABI-safe patches.">
+  <meta name="twitter:image" content="https://i.ibb.co/d4PLN7Gg/og-image.png">
+  <link rel="canonical" href="https://www.droidspaces.org/docs/kernel-configuration.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .docs-layout {
+      display: flex; min-height: calc(100vh - 56px);
+    }
+    .sidebar {
+      width: 300px; flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      background: var(--bg2);
+      overflow-y: auto;
+      position: sticky; top: 56px; height: calc(100vh - 56px);
+    }
+    .sidebar-inner {
+      padding: 0;
+      position: relative;
+      width: 100%;
+      min-width: 0;
+    }
+    .sidebar-group {
+      margin-bottom: 0;
+    }
+    .sidebar-heading {
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); padding: 1rem 1rem 0.25rem;
+    }
+    .sidebar-link {
+      display: block; padding: 0.5rem 1rem;
+      font-size: 0.9rem; color: var(--muted);
+      text-decoration: none; border-radius: 0;
+      transition: all 0.1s;
+    }
+    .sidebar-link:hover {
+      color: var(--text); background: var(--bg3);
+    }
+    .sidebar-link.active {
+      color: var(--accent2); background: rgba(79,142,247,0.08);
+      font-weight: 600;
+    }
+    .sidebar-content {
+      flex: 1; min-width: 0;
+      padding: 2rem 2rem 4rem;
+      max-width: 960px;
+    }
+    .sidebar-content h1 {
+      font-family: var(--mono); font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700; letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-content h2 {
+      font-family: var(--mono); font-size: 1.25rem; font-weight: 700;
+      color: var(--text); margin: 2rem 0 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .sidebar-content h2:target {
+      border-left: 3px solid var(--accent);
+      padding-left: 0.75rem;
+    }
+    .sidebar-content h3 {
+      font-family: var(--mono); font-size: 1rem; font-weight: 600;
+      color: var(--accent2); margin: 1.5rem 0 0.5rem;
+    }
+    .sidebar-content h3:target {
+      border-left: 2px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+    .sidebar-content p {
+      color: var(--muted); line-height: 1.7; margin-bottom: 1rem;
+    }
+    .sidebar-content strong { color: var(--text); }
+    .sidebar-content a {
+      color: var(--accent2); text-decoration: none;
+    }
+    .sidebar-content a:hover { text-decoration: underline; }
+    .sidebar-content code {
+      font-family: var(--mono); font-size: 0.82rem;
+      background: var(--bg3); padding: 0.15rem 0.4rem;
+      border-radius: 4px; color: var(--accent2);
+    }
+    .sidebar-content pre {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .sidebar-content pre code {
+      background: none; padding: 0; font-size: 0.78rem;
+      color: var(--text); line-height: 1.6;
+    }
+    .code-block {
+      position: relative;
+    }
+    .code-block:hover .copy-btn {
+      opacity: 1;
+    }
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.7rem;
+      font-family: var(--sans); padding: 0.2rem 0.5rem;
+      border-radius: 4px; cursor: pointer;
+      opacity: 0; transition: opacity 0.15s; z-index: 1;
+      display: inline-flex; align-items: center; gap: 0.25rem;
+    }
+    .copy-btn:hover {
+      color: var(--accent2); border-color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .copy-btn { opacity: 1; }
+    }
+    .sidebar-content ul, .sidebar-content ol {
+      color: var(--muted); line-height: 1.7;
+      margin-bottom: 1rem; padding-left: 1.25rem;
+    }
+    .sidebar-content li { margin-bottom: 0.25rem; }
+    .sidebar-content li > .code-block { margin-top: 0.5rem; }
+    .sidebar-content blockquote {
+      border-left: 3px solid var(--accent); background: var(--bg3);
+      padding: 0.75rem 1rem; margin-bottom: 1rem;
+      border-radius: 0 6px 6px 0;
+      color: var(--text); font-size: 0.9rem;
+    }
+    .sidebar-content blockquote p { color: var(--text); margin-bottom: 0; }
+    .sidebar-content hr {
+      border: none; border-top: 1px solid var(--border); margin: 2rem 0;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    .table-wrap table {
+      margin-bottom: 0;
+    }
+    .sidebar-content table {
+      width: 100%; border-collapse: collapse; font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-content th {
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0.75rem 1rem; text-align: left; color: var(--muted);
+      border-bottom: 1px solid var(--border); background: var(--bg3);
+      white-space: nowrap;
+    }
+    .sidebar-content td {
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      word-break: break-word;
+    }
+    .sidebar-content img {
+      max-width: 100%; border-radius: 8px; border: 1px solid var(--border);
+      margin: 1rem 0;
+    }
+    .sidebar-content details {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .sidebar-content summary {
+      font-family: var(--mono); font-size: 0.85rem;
+      cursor: pointer; color: var(--accent2);
+    }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--bg3); padding: 0.75rem 1rem;
+      margin-bottom: 1rem; border-radius: 0 6px 6px 0;
+      font-size: 0.9rem; color: var(--text);
+    }
+    .callout-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      display: block; margin-bottom: 0.25rem;
+    }
+    .callout-note { border-left-color: var(--accent); }
+    .callout-note .callout-title { color: var(--accent); }
+    .callout-tip { border-left-color: var(--green); }
+    .callout-tip .callout-title { color: var(--green); }
+    .callout-warning { border-left-color: #f59e0b; }
+    .callout-warning .callout-title { color: #f59e0b; }
+    .callout-caution { border-left-color: #f59e0b; }
+    .callout-caution .callout-title { color: #f59e0b; }
+    .callout-important { border-left-color: #ef4444; }
+    .callout-important .callout-title { color: #ef4444; }
+    .doc-nav-buttons {
+      display: flex; justify-content: space-between; gap: 1rem;
+      margin: 2rem 0 1rem;
+    }
+    .doc-nav-btn {
+      padding: 0.5rem 1rem; border-radius: 8px;
+      font-family: var(--sans); font-size: 0.82rem; font-weight: 500;
+      text-decoration: none; color: var(--muted);
+      border: 1px solid var(--border);
+      transition: all 0.15s; max-width: 50%;
+    }
+    .doc-nav-btn:hover {
+      color: var(--text); border-color: var(--muted);
+    }
+    .doc-nav-next {
+      margin-left: auto; text-align: right;
+    }
+    .doc-nav-prev {
+      text-align: left;
+    }
+    .doc-copyright {
+      font-size: 0.78rem; color: var(--border2);
+      padding-top: 1rem; border-top: 1px solid var(--border);
+      margin-top: 1.5rem; text-align: center;
+    }
+    .doc-copyright a {
+      color: var(--border2); text-decoration: none;
+    }
+    .doc-copyright a:hover {
+      color: var(--muted);
+    }
+    .nav-overlay {
+      display: none; position: fixed;
+      top: 56px; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 199;
+    }
+    .nav-overlay.active { display: block; }
+
+    .sidebar-close {
+      display: none;
+      position: absolute; top: 0.5rem; right: 1rem;
+      background: none; border: none;
+      color: var(--muted); font-size: 1.5rem;
+      cursor: pointer; padding: 0.25rem 0.5rem;
+      line-height: 1; border-radius: 4px;
+    }
+    .sidebar-close:hover {
+      color: var(--text); background: var(--bg3);
+    }
+
+    .doc-breadcrumb {
+      display: none;
+      position: sticky;
+      top: 56px;
+      z-index: 50;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted);
+      user-select: none;
+      cursor: pointer;
+    }
+    .doc-breadcrumb .bc-sep {
+      color: var(--border2);
+    }
+    .doc-breadcrumb .bc-section {
+      color: var(--text);
+    }
+    .doc-breadcrumb .bc-label {
+      color: var(--accent2);
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        display: flex;
+        position: fixed; top: 56px; left: 0;
+        width: 300px; height: calc(100dvh - 56px); z-index: 200;
+        border-right: 1px solid var(--border);
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 12px rgba(0,0,0,0.2);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-close { display: block; }
+      .sidebar-content { padding: 1.5rem 1rem 3rem; }
+      .doc-breadcrumb { display: flex; }
+      .docs-layout { flex-direction: column; }
+      .sidebar-content th,
+      .sidebar-content td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+</head>
+<body>
+    <nav aria-label="Main navigation">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;height:100%;">
+      <a href="/" class="nav-logo">
+        <svg class="logo-icon" viewBox="8.25 10.35 31.5 27.3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36.85 30.16H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 34.97c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.85 21.00H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 25.82c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+          <path d="M36.84 11.74H11.15c-0.82 0-1.48 0.68-1.48 1.52v3.05c0 0.84 0.66 1.52 1.48 1.52h25.69c0.82 0 1.48-0.68 1.48-1.52v-3.05c0-0.84-0.66-1.52-1.48-1.52ZM12.58 16.57c-0.95 0-1.73-0.79-1.73-1.77s0.77-1.77 1.73-1.77 1.73 0.79 1.73 1.77-0.77 1.77-1.73 1.77Z"/>
+        </svg>
+        <span class="logo-text">Droidspaces</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <ul class="nav-links">
+          <li class="nav-features"><a href="/#features">Features</a></li>
+          <li><a href="/docs/" style="color:var(--accent2)"><i class="fas fa-book nav-icon nav-icon-docs"></i><span class="nav-label">Documentation</span></a></li>
+          <li class="nav-downloads"><a href="/downloads.html"><i class="fas fa-download nav-icon nav-icon-docs"></i><span class="nav-label">Downloads</span></a></li>
+          <li><a href="https://github.com/ravindu644/Droidspaces-OSS" rel="noopener noreferrer"><i class="fab fa-github nav-icon"></i><span class="nav-label nav-label-gt">GitHub</span></a></li>
+          <li><a href="https://t.me/Droidspaces" rel="noopener noreferrer"><i class="fab fa-telegram nav-icon"></i><span class="nav-label nav-label-gt">Telegram</span></a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-overlay" id="sidebar-overlay"></div>
+
+  <div class="doc-breadcrumb" id="sidebar-toggle" role="button" tabindex="0" aria-label="Toggle docs navigation">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+      <rect x="3" y="3" width="18" height="18" rx="2"/>
+      <line x1="9" y1="3" x2="9" y2="21"/>
+    </svg>
+    <span>Docs</span><span class="bc-sep">/</span><span class="bc-section">Guides</span><span class="bc-sep">/</span><span class="bc-label">Kernel Configuration</span>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">&times;</button>
+<div class="sidebar-group">
+<div class="sidebar-heading">Basics</div>
+<a href="getting-started.html" class="sidebar-link">Getting Started</a>
+<a href="installation-android.html" class="sidebar-link">Android Installation</a>
+<a href="installation-linux.html" class="sidebar-link">Linux Installation</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Guides</div>
+<a href="features.html" class="sidebar-link">Features Deep Dive</a>
+<a href="gpu-acceleration.html" class="sidebar-link">GPU Acceleration</a>
+<a href="kernel-configuration.html" class="sidebar-link active">Kernel Configuration</a>
+<a href="usage-android-app.html" class="sidebar-link">Android App Usage</a>
+<a href="linux-cli.html" class="sidebar-link">Linux CLI Usage</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Recipes</div>
+<a href="cool-things-you-can-do.html" class="sidebar-link">Cool Things You Can Do</a>
+</div>
+<div class="sidebar-group">
+<div class="sidebar-heading">Reference</div>
+<a href="troubleshooting.html" class="sidebar-link">Troubleshooting</a>
+<a href="common-errors.html" class="sidebar-link">Common Errors</a>
+<a href="community-supported-devices.html" class="sidebar-link">Supported Devices</a>
+<a href="nix-nixos.html" class="sidebar-link">Nix / NixOS</a>
+<a href="uninstallation.html" class="sidebar-link">Uninstallation</a>
+</div>
+      </div>
+    </aside>
+    <div class="sidebar-content">
+<h1 id="kernel-configuration-guide">Kernel Configuration Guide</h1>
+<p>This guide explains how to compile a Linux kernel with Droidspaces support for Android devices.</p>
+<div class="callout callout-tip"><strong class="callout-title">TIP</strong> <strong>New to kernel compilation?</strong> Check out the comprehensive tutorial at:
+https://github.com/ravindu644/Android-Kernel-Tutorials</div>
+<hr>
+<h3 id="quick-navigation">Quick Navigation</h3>
+<ul>
+<li><a href="#overview" rel="noopener noreferrer">Overview</a></li>
+<li><a href="#non-gki" rel="noopener noreferrer">Configuring Non-GKI Kernels</a></li>
+<li><a href="#gki" rel="noopener noreferrer">Configuring GKI Kernels</a></li>
+<li><a href="#testing" rel="noopener noreferrer">Testing Your Kernel</a></li>
+<li><a href="#versions" rel="noopener noreferrer">Recommended Kernel Versions</a></li>
+<li><a href="#nested" rel="noopener noreferrer">Nested Containers</a></li>
+<li><a href="#resources" rel="noopener noreferrer">Additional Resources</a></li>
+</ul>
+<hr>
+<h2 id="overview">Overview</h2>
+<p>Droidspaces needs specific kernel options to run isolated containers. These options enable Linux namespaces, cgroups, seccomp filtering, networking, and device filesystem support.</p>
+<hr>
+<h2 id="non-gki">Configuring Non-GKI Kernels (Legacy Kernels)</h2>
+<p><strong>Applies to:</strong> Kernel 3.18, 4.4, 4.9, 4.14, 4.19</p>
+<p>Non-GKI kernels are the easiest to configure. Follow these steps:</p>
+<h3 id="step-1-mandatory-configuration">Step 1: Mandatory Configuration</h3>
+<p>Place these options in your device defconfig or use them as a configuration fragment.</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Kernel configurations for full DroidSpaces support
+# Copyright (C) 2026 ravindu644 <droidcasts@protonmail.com>
+
+# IPC mechanisms
+CONFIG_SYSCTL=y
+CONFIG_SYSVIPC=y
+CONFIG_POSIX_MQUEUE=y
+
+# Core namespace support
+CONFIG_NAMESPACES=y
+CONFIG_PID_NS=y
+CONFIG_UTS_NS=y
+CONFIG_IPC_NS=y
+
+# Seccomp support
+CONFIG_SECCOMP=y
+CONFIG_SECCOMP_FILTER=y
+
+# Control groups support
+CONFIG_CGROUPS=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CGROUP_PIDS=y
+CONFIG_MEMCG=y
+CONFIG_CGROUP_SCHED=y
+CONFIG_FAIR_GROUP_SCHED=y
+CONFIG_CGROUP_FREEZER=y
+CONFIG_CGROUP_NET_PRIO=y
+
+# Device filesystem support
+CONFIG_DEVTMPFS=y
+
+# Overlay filesystem support (required for volatile mode)
+CONFIG_OVERLAY_FS=y
+
+# Enable xattr support on tmpfs
+# (required for NixOS setcap wrappers in /run/wrappers)
+CONFIG_TMPFS_XATTR=y
+
+# Firmware loading support
+CONFIG_FW_LOADER=y
+CONFIG_FW_LOADER_USER_HELPER=y
+CONFIG_FW_LOADER_COMPRESS=y
+
+# Droidspaces Network Isolation Support - NAT/none modes
+CONFIG_NET_NS=y
+CONFIG_VETH=y
+CONFIG_BRIDGE=y
+CONFIG_NETFILTER=y
+CONFIG_BRIDGE_NETFILTER=y
+CONFIG_NETFILTER_ADVANCED=y
+CONFIG_NF_CONNTRACK=y
+CONFIG_IP_NF_IPTABLES=y
+CONFIG_IP_NF_FILTER=y
+CONFIG_NF_NAT=y
+CONFIG_NF_TABLES=y
+CONFIG_IP_NF_TARGET_MASQUERADE=y
+CONFIG_NETFILTER_XT_TARGET_MASQUERADE=y
+CONFIG_NETFILTER_XT_TARGET_TCPMSS=y
+CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+CONFIG_NF_CONNTRACK_NETLINK=y
+CONFIG_NF_NAT_REDIRECT=y
+CONFIG_IP_ADVANCED_ROUTER=y
+CONFIG_IP_MULTIPLE_TABLES=y
+
+# legacy compat
+CONFIG_NF_CONNTRACK_IPV4=y
+CONFIG_NF_NAT_IPV4=y
+CONFIG_IP_NF_NAT=y
+
+# Disable this on older kernels to make internet work
+CONFIG_ANDROID_PARANOID_NETWORK=n
+</code></pre></div>
+<h3 id="step-2-firewall-support-ufwfail2ban-optional">Step 2: Firewall Support (UFW/Fail2ban) - Optional</h3>
+<div class="callout callout-tip"><strong class="callout-title">TIP</strong> These options are only required if you want to run UFW or Fail2ban inside the container.
+
+<strong>Use NAT mode</strong> when running these to avoid host networking conflicts.</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># UFW & FAIL2BAN CORE
+CONFIG_NETFILTER_XT_MATCH_COMMENT=y
+CONFIG_NETFILTER_XT_MATCH_STATE=y
+CONFIG_NETFILTER_XT_MATCH_CONNTRACK=y
+CONFIG_NETFILTER_XT_MATCH_MULTIPORT=y
+CONFIG_NETFILTER_XT_MATCH_HL=y
+CONFIG_NETFILTER_XT_TARGET_REJECT=y
+CONFIG_IP_NF_TARGET_REJECT=y
+CONFIG_NETFILTER_XT_TARGET_LOG=y
+CONFIG_IP_NF_TARGET_ULOG=y
+CONFIG_NETFILTER_XT_MATCH_RECENT=y
+CONFIG_NETFILTER_XT_MATCH_LIMIT=y
+CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=y
+CONFIG_NETFILTER_XT_MATCH_OWNER=y
+CONFIG_NETFILTER_XT_MATCH_PKTTYPE=y
+CONFIG_NETFILTER_XT_MATCH_MARK=y
+CONFIG_NETFILTER_XT_TARGET_MARK=y
+CONFIG_IP_SET=y
+CONFIG_IP_SET_HASH_IP=y
+CONFIG_IP_SET_HASH_NET=y
+CONFIG_NETFILTER_XT_SET=y
+CONFIG_NETFILTER_NETLINK_QUEUE=y
+CONFIG_NETFILTER_NETLINK_LOG=y
+CONFIG_NETFILTER_XT_TARGET_NFLOG=y
+</code></pre></div>
+<h3 id="step-3-apply-patches">Step 3: Apply Patches</h3>
+<p>Apply all patches from the <a href="./resources/kernel-patches/non-GKI/" rel="noopener noreferrer">assets/resources/kernel-patches/non-GKI</a> directory using this command:</p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>patch -p1 < /path/to/extracted/patchfile.patch
+</code></pre></div>
+<h3 id="step-4-build-flash-and-test">Step 4: Build, Flash and Test</h3>
+<ol>
+<li>Save the configuration blocks above as <code>.config</code> fragments or merge them into your defconfig.</li>
+<li>Compile and flash the kernel to your device.</li>
+<li>Verify using the Droidspaces app <strong>Settings -> Requirements -> Check Requirements</strong>.</li>
+</ol>
+<hr>
+<h2 id="gki">Configuring GKI Kernels</h2>
+<p><strong>Applies to:</strong> Kernel 5.4, 5.10, 5.15, 6.1, 6.6, 6.12+</p>
+<p>Google's Generic Kernel Image (GKI) enforces strict <strong>kABI (Kernel Application Binary Interface)</strong> compliance. Enabling standard Droidspaces features like <code>CONFIG_SYSVIPC</code> or <code>CONFIG_IPC_NS</code> would normally shift memory offsets in the core <code>task_struct</code>, causing pre-compiled vendor modules (GPU, Camera, etc.) to crash or bootloop the device.</p>
+<p>To solve this, Droidspaces provides specialized <strong>kABI-friendly patches</strong> that allow these features to be enabled without shifting offsets.</p>
+<h3 id="step-1-apply-the-mandatory-kabi-patches">Step 1: Apply the Mandatory kABI Patches</h3>
+<div class="callout callout-important"><strong class="callout-title">IMPORTANT</strong> <strong>These patches are NOT OPTIONAL.</strong> You <strong>MUST</strong> apply the correct kABI fix patches for your kernel version. Skipping these patches will cause an immediate bootloop upon enabling <code>CONFIG_SYSVIPC</code>, <code>CONFIG_IPC_NS</code> or <code>CONFIG_POSIX_MQUEUE</code>.</div>
+<p><strong>For ALL Kernels BELOW 6.12 (5.4, 5.10, 5.15, 6.1, 6.6):</strong></p>
+<ul>
+<li>Apply the <code>SYSVIPC</code> kABI fix from <a href="./resources/kernel-patches/GKI/below-kernel-6.12/" rel="noopener noreferrer">assets/resources/kernel-patches/GKI/below-kernel-6.12/</a>:</li>
+</ul>
+<div class="callout callout-tip"><strong class="callout-title">TIP</strong> The <a href="./resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_6_7_8.patch" rel="noopener noreferrer"><code>001.GKI-below-6.12-fix_sysvipc_kABI_6_7_8.patch</code></a> is recommended.
+If this patch causes a bootloop, try the alternative patches from the same folder (e.g., <code>1_2_3</code> or <code>3_4_5</code>).</div>
+<p><strong>For Kernels 5.10 and BELOW ONLY:</strong></p>
+<ul>
+<li>You <strong>MUST ALSO</strong> apply the <code>POSIX_MQUEUE</code> kABI fix:</li>
+</ul>
+<p>  <a href="./resources/kernel-patches/GKI/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch" rel="noopener noreferrer">assets/resources/kernel-patches/GKI/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch</a></p>
+<p><strong>For Kernels 6.12 and ABOVE:</strong></p>
+<ul>
+<li>Apply the patch from <a href="./resources/kernel-patches/GKI/kernel-6.12/001.GKI-6.12-or-above-fix_sysvipc_kabi.patch" rel="noopener noreferrer">assets/resources/kernel-patches/GKI/kernel-6.12/001.GKI-6.12-or-above-fix_sysvipc_kabi.patch</a>.</li>
+</ul>
+<p><strong>How to apply the patches:</strong></p>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Apply each required patch for your kernel version
+patch -p1 < /path/to/extracted/patchfile.patch
+</code></pre></div>
+<h3 id="step-2-edit-gkidefconfig">Step 2: Edit <code>gki_defconfig</code></h3>
+<p>Rather than using separate fragment files, directly edit <code>arch/arm64/configs/gki_defconfig</code>, use this <strong>GKI-Exclusive Configuration</strong>.</p>
+<p>These options have been tested and proven to work across all GKI kernels without breaking ABI.</p>
+<div class="callout callout-warning"><strong class="callout-title">WARNING</strong> <strong>DO NOT</strong> enable anything other than the recommended GKI configuration below. These specific items are kABI-safe when combined with the Step 1 patch.</div>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Kernel configurations for full DroidSpaces support for GKI
+# Copyright (C) 2026 ravindu644 <droidcasts@protonmail.com>
+
+# IPC
+CONFIG_SYSVIPC=y
+CONFIG_POSIX_MQUEUE=y
+
+# Namespaces
+CONFIG_IPC_NS=y
+CONFIG_PID_NS=y
+
+# HW Access Support
+CONFIG_DEVTMPFS=y
+
+# --- Below configs are optional but recommended ---
+
+# Networking (Docker/NAT support)
+CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+
+# UFW support
+CONFIG_NETFILTER_XT_TARGET_REJECT=y
+CONFIG_NETFILTER_XT_TARGET_LOG=y
+CONFIG_NETFILTER_XT_MATCH_RECENT=y
+
+# Fail2ban support
+CONFIG_IP_SET=y
+CONFIG_IP_SET_HASH_IP=y
+CONFIG_IP_SET_HASH_NET=y
+CONFIG_NETFILTER_XT_SET=y
+
+# Enable xattr support on tmpfs
+# (required for NixOS setcap wrappers in /run/wrappers)
+CONFIG_TMPFS_XATTR=y
+</code></pre></div>
+<p><strong>Workflow Rules:</strong> - <strong>Do not</strong> append this as a block at the end of the file. - Search for each option individually. - If an option appears as <code># CONFIG_NAME is not set</code>, change it to <code>CONFIG_NAME=y</code>. - If an option is already set to <code>CONFIG_NAME=y</code>, leave it alone. - If an option does not exist, add it at the end.</p>
+<h3 id="step-3-compile">Step 3: Compile</h3>
+<p>Use your preferred build method: Bazel, the official AOSP <code>build.sh</code>/<code>prepare_vendor.sh</code> scripts, or traditional <code>Kbuild</code> with <code>make</code>.</p>
+<h3 id="step-4-flash-and-test">Step 4: Flash and Test</h3>
+<p>Flash the compiled <code>boot.img</code> or <code>Image</code> using Odin, fastboot, Heimdall, Anykernel3 or your device's preferred method. Since we used kABI-safe patches, your stock vendor modules will continue to work perfectly.</p>
+<p>After booting, open the Droidspaces app and go to <strong>Settings</strong> (gear icon) -> <strong>Requirements</strong> -> <strong>Check Requirements</strong> to verify your setup.</p>
+<hr>
+<h2 id="testing">Testing Your Kernel</h2>
+<h3 id="1-run-the-requirements-check">1. Run the Requirements Check</h3>
+<ul>
+<li><strong>In the app</strong>: Go to <strong>Settings</strong> (gear icon) -> <strong>Requirements</strong> -> <strong>Check Requirements</strong>.</li>
+<li><strong>In a terminal</strong>: Run:</li>
+</ul>
+<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>su -c droidspaces check
+</code></pre></div>
+<p>This checks for:</p>
+<ul>
+<li>Root access</li>
+<li>Kernel version (minimum 3.18)</li>
+<li>PID, MNT, UTS, IPC namespaces</li>
+<li>Network namespace (optional, required for NAT/None modes)</li>
+<li>Cgroup namespace (optional, for modern cgroup isolation)</li>
+<li>devtmpfs support</li>
+<li>OverlayFS support (optional, for volatile mode)</li>
+<li>VETH and Bridge support (optional, for NAT mode)</li>
+<li>PTY/devpts support</li>
+<li>Loop device support</li>
+<li>ext4 support</li>
+</ul>
+<h3 id="2-understanding-the-results">2. Understanding the Results</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr><th>Result</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td>Green checkmark</td><td>Feature is available</td></tr>
+<tr><td>Yellow warning</td><td>Feature is optional and not available (e.g., OverlayFS)</td></tr>
+<tr><td>Red cross</td><td>Required feature is missing; containers may not work</td></tr>
+</tbody>
+</table></div>
+<h3 id="3-what-to-do-if-something-is-missing">3. What to Do If Something Is Missing</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr><th>Missing Feature</th><th>Required Config</th><th>Impact if Missing</th></tr>
+</thead>
+<tbody>
+<tr><td>PID namespace</td><td><code>CONFIG_PID_NS=y</code></td><td><strong>Fatal.</strong> Containers cannot start.</td></tr>
+<tr><td>MNT namespace</td><td><code>CONFIG_NAMESPACES=y</code></td><td><strong>Fatal.</strong> Containers cannot start.</td></tr>
+<tr><td>UTS namespace</td><td><code>CONFIG_UTS_NS=y</code></td><td><strong>Fatal.</strong> Containers cannot start.</td></tr>
+<tr><td>IPC namespace</td><td><code>CONFIG_IPC_NS=y</code></td><td><strong>Fatal.</strong> Containers cannot start.</td></tr>
+<tr><td>Cgroup device</td><td><code>CONFIG_CGROUP_DEVICE=y</code></td><td><strong>Fatal.</strong>  Containers cannot start.</td></tr>
+<tr><td>devtmpfs</td><td><code>CONFIG_DEVTMPFS=y</code></td><td><strong>Fatal.</strong> Droidspaces cannot set up <code>/dev</code>.</td></tr>
+<tr><td>OverlayFS</td><td><code>CONFIG_OVERLAY_FS</code></td><td>Volatile mode unavailable.</td></tr>
+<tr><td>Network namespace</td><td><code>CONFIG_NET_NS=y</code></td><td>NAT and None modes unavailable.</td></tr>
+<tr><td>VETH / Bridge</td><td><code>CONFIG_VETH</code> / <code>CONFIG_BRIDGE</code></td><td>NAT mode unavailable.</td></tr>
+<tr><td>Seccomp</td><td><code>CONFIG_SECCOMP=y</code></td><td>Seccomp shield disabled. Security risk.</td></tr>
+</tbody>
+</table></div>
+<hr>
+<h2 id="versions">Recommended Kernel Versions</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr><th>Version</th><th>Support</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>3.18</td><td>Legacy</td><td>Minimum supported version. Basic namespace support only. Modern distros are unstable or may not boot at all.</td></tr>
+<tr><td>4.4 - 4.19</td><td>Stable</td><td>Full support. Nested containers (Docker/Podman) work natively. If you hit systemd hangs on kernels like 4.14.113 due to the VFS deadlock bug, try enabling the "Deadlock Shield" in the app or passing <code>--block-nested-namespaces</code> in the CLI, then hard reboot and try again.</td></tr>
+<tr><td>5.4 - 5.10</td><td>Recommended</td><td>Full feature support including nested containers and modern cgroup v2.</td></tr>
+<tr><td>5.15+</td><td>Ideal</td><td>All features, best performance, and the widest compatibility.</td></tr>
+</tbody>
+</table></div>
+<hr>
+<h2 id="nested">Nested Containers (Docker, Podman, LXC)</h2>
+<p>Droidspaces supports running Docker, Podman, or LXC inside a container out of the box on all supported kernel versions.</p>
+<h3 id="legacy-kernel-considerations-419-and-below">Legacy Kernel Considerations (4.19 and below)</h3>
+<p>Legacy kernels may present some challenges for modern nested container tools:</p>
+<ul>
+<li><strong>Deadlock Shield trade-off</strong>: If your device is affected by the 4.14.113 <code>grab_super()</code> VFS deadlock and requires the Deadlock Shield to boot systemd, enabling the shield will also block the namespace syscalls that Docker, LXC, and Podman need. You cannot use nested containers while the shield is active.</li>
+<li><strong>Networking incompatibilities</strong>: Modern Docker, LXC, and Podman rely on <code>nftables</code>. Legacy kernels often lack full <code>nftables</code> support. To work around this, use Droidspaces in NAT mode and switch your container's iptables alternative to <code>iptables-legacy</code> and <code>ip6tables-legacy</code>.</li>
+<li><strong>BPF conflicts</strong>: Modern Docker and runc use <code>BPF_CGROUP_DEVICE</code> for device management. Legacy kernels do not support the required BPF attach types, which causes <code>Invalid argument</code> errors. To work around this, configure Docker to use the <code>cgroupfs</code> driver and the <code>vfs</code> storage driver.</li>
+</ul>
+<hr>
+<h2 id="resources">Additional Resources</h2>
+<ul>
+<li><a href="https://github.com/ravindu644/Android-Kernel-Tutorials" rel="noopener noreferrer">Android Kernel Tutorials</a> by ravindu644</li>
+<li><a href="https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html" rel="noopener noreferrer">Kernel Configuration Reference</a></li>
+<li><a href="https://t.me/Droidspaces" rel="noopener noreferrer">Droidspaces Telegram Channel</a> for kernel-specific support</li>
+</ul>
+<div class="doc-nav-buttons"><a href="gpu-acceleration.html" class="doc-nav-btn doc-nav-prev">← GPU Acceleration</a><a href="usage-android-app.html" class="doc-nav-btn doc-nav-next">Android App Usage →</a></div>
+      <p class="doc-copyright">&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>
+</p>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const themeToggle = document.getElementById('theme-toggle');
+      const sunIcon = themeToggle.querySelector('.sun-icon');
+      const moonIcon = themeToggle.querySelector('.moon-icon');
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+      function updateIcons(theme) {
+        sunIcon.style.display = theme === 'light' ? 'none' : 'block';
+        moonIcon.style.display = theme === 'light' ? 'block' : 'none';
+      }
+      function getEffectiveTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return mediaQuery.matches ? 'light' : 'dark';
+      }
+      function applyTheme(theme) {
+        if (theme === 'system') {
+          document.documentElement.removeAttribute('data-theme');
+          updateIcons(mediaQuery.matches ? 'light' : 'dark');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+          updateIcons(theme);
+        }
+      }
+      applyTheme(getEffectiveTheme());
+      mediaQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'light' : 'dark');
+      });
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = getEffectiveTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        applyTheme(newTheme);
+      });
+      // Docs sidebar toggle
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (sidebar.classList.contains('open')) closeSidebar();
+          else openSidebar();
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+
+      const sidebarClose = document.getElementById('sidebar-close');
+      if (sidebarClose) {
+        sidebarClose.addEventListener('click', closeSidebar);
+      }
+
+      if (sidebar) {
+        sidebar.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', closeSidebar);
+        });
+      }
+    })();
+    function copyCode(btn) {
+      const code = btn.parentElement.querySelector('pre code');
+      const text = code.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 1500);
+      }).catch(() => {});
+    }
+  </script>
+</body>
+</html>

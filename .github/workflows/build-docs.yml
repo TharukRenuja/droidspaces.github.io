@@ -1,0 +1,39 @@
+name: Build Docs
+
+on:
+  repository_dispatch:
+    types: [docs-updated]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch latest docs from source repo
+        env:
+          PAT: ${{ secrets.SOURCE_REPO_PAT }}
+        run: |
+          REPO="https://github.com/YOUR_USERNAME/YOUR_SOURCE_REPO.git"
+          if [ -n "$PAT" ]; then
+            REPO="https://x-access-token:${PAT}@github.com/YOUR_USERNAME/YOUR_SOURCE_REPO.git"
+          fi
+          git clone --depth 1 --branch main "$REPO" /tmp/source
+          rm -rf docs/content/
+          cp -r /tmp/source/docs/content docs/content/
+
+      - name: Build HTML
+        run: python3 .github/scripts/build-docs.py
+
+      - name: Clean up source markdown
+        run: rm -rf docs/content/
+
+      - name: Commit and push
+        run: |
+          SHA="${{ github.event.client_payload.sha }}"
+          git config user.name "docs-bot"
+          git config user.email "bot@droidspaces.org"
+          git add -A
+          git diff --cached --quiet || \
+            git commit -m "docs: update from source@${SHA:0:7}" && \
+            git push
