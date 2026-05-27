@@ -101,7 +101,6 @@
       font-family: var(--mono); font-size: 0.82rem;
       background: var(--bg3); padding: 0.15rem 0.4rem;
       border-radius: 4px; color: var(--accent2);
-      word-break: break-word; overflow-wrap: anywhere;
     }
     .sidebar-content pre {
       background: var(--bg2); border: 1px solid var(--border);
@@ -132,6 +131,11 @@
     }
     @media (max-width: 768px) {
       .copy-btn { opacity: 1; }
+      .sidebar-content a { word-break: break-word; }
+      .sidebar-content code { word-break: break-word; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .sidebar-content th { white-space: normal; word-break: break-word; }
+      .sidebar-content td { word-break: break-word; }
     }
     .sidebar-content ul, .sidebar-content ol {
       color: var(--muted); line-height: 1.7;
@@ -650,10 +654,11 @@ droidspaces --name=ubuntu --rootfs-img=/path/to/rootfs.img --volatile start
 <h3 id="1-android-network-hardware-groups">1. Android Network & Hardware Groups</h3>
 <p>Older Android kernels restrict network socket creation and direct hardware access to specific, hardcoded Group IDs (GIDs). Droidspaces maps and configures these groups inside the container's rootfs:</p>
 <ul>
-<li><strong>GID Mapping</strong>: Appends Android-specific groups to <code>/etc/group</code>:</li>
+<li><strong>GID Mapping</strong>: Appends Android-specific groups to <code>/etc/group</code>:<ul>
 <li><code>aid_inet</code> (3003): Allows internet access.</li>
 <li><code>aid_net_raw</code> (3004): Allows raw socket creation (e.g., for <code>ping</code>).</li>
 <li><code>aid_net_admin</code> (3005): Allows network administration.</li>
+</ul></li>
 <li><strong>Permissions Assignment</strong>: Adds the container's <code>root</code> user to the <code>aid_inet</code>, <code>aid_net_raw</code>, <code>input</code>, <code>video</code>, and <code>tty</code> groups.</li>
 <li><strong>Package Manager Fix</strong>: Configures the Debian/Ubuntu <code>_apt</code> user to use <code>aid_inet</code> as its primary group, allowing packages to be installed and updated without permission errors.</li>
 <li><strong>User Automation</strong>: Modifies <code>/etc/adduser.conf</code> so any newly created user automatically inherits these groups.</li>
@@ -661,20 +666,10 @@ droidspaces --name=ubuntu --rootfs-img=/path/to/rootfs.img --volatile start
 <h3 id="2-udev-trigger-service-overrides">2. Udev Trigger & Service Overrides</h3>
 <p>Standard Linux distributions run <code>udevadm trigger</code> to coldplug hardware devices during boot. Triggering all subsystems simultaneously on an Android device can cause the kernel to panic.</p>
 <ul>
-<li><strong>Hardware Access Guards</strong>: Since udev services are only useful when hardware access is explicitly enabled, Droidspaces injects a drop-in <code>ExecCondition</code> override that prevents <code>systemd-udevd.service</code>, <code>systemd-udev-trigger.service</code>, and <code>systemd-udev-settle.service</code> from starting unless the container is configured with hardware access (<code>enable_hw_access=1</code>):</li>
+<li><strong>Hardware Access Guards</strong>: Since udev services are only useful when hardware access is explicitly enabled, Droidspaces injects a drop-in <code>ExecCondition</code> override that prevents <code>systemd-udevd.service</code>, <code>systemd-udev-trigger.service</code>, and <code>systemd-udev-settle.service</code> from starting unless the container is configured with hardware access (<code>enable_hw_access=1</code>):<p>```ini</p><p>[Service]</p><p>ExecCondition=</p><p>ExecCondition=/bin/sh -c "grep -q 'enable_hw_access=1' /run/droidspaces/container.config"</p><p>```</p></li>
+<li><strong>Safe Udev Trigger</strong>: Instead of scanning everything, Droidspaces overrides the default <code>systemd-udev-trigger.service</code> using a drop-in configuration. If hardware access is enabled, this limits the trigger to a strictly defined, safe subset of subsystems:<p>```ini</p><p>[Service]</p><p>ExecStart=</p><p>ExecStart=-/usr/bin/udevadm trigger --subsystem-match=usb --subsystem-match=block --subsystem-match=input --subsystem-match=tty --subsystem-match=net</p><p>```</p><p>This allows the container to dynamically detect new USB drives, keyboards, and network interfaces without risking a host crash.</p></li>
+<li><strong>Read-Only Path Fix</strong>: Overrides <code>ConditionPathIsReadWrite</code> for all udev units to prevent failures in environments where key system directories are mounted read-only.</li>
 </ul>
-<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[Service]
-ExecCondition=
-ExecCondition=/bin/sh -c "grep -q 'enable_hw_access=1' /run/droidspaces/container.config"
-</code></pre></div>
-<ul>
-<li><strong>Safe Udev Trigger</strong>: Instead of scanning everything, Droidspaces overrides the default <code>systemd-udev-trigger.service</code> using a drop-in configuration. If hardware access is enabled, this limits the trigger to a strictly defined, safe subset of subsystems:</li>
-</ul>
-<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[Service]
-ExecStart=
-ExecStart=-/usr/bin/udevadm trigger --subsystem-match=usb --subsystem-match=block --subsystem-match=input --subsystem-match=tty --subsystem-match=net
-</code></pre></div>
-<p>  This allows the container to dynamically detect new USB drives, keyboards, and network interfaces without risking a host crash. - <strong>Read-Only Path Fix</strong>: Overrides <code>ConditionPathIsReadWrite</code> for all udev units to prevent failures in environments where key system directories are mounted read-only.</p>
 <h3 id="3-optimizing-systemd-logging">3. Optimizing systemd & Logging</h3>
 <p>The Android kernel is notoriously verbose. Without tuning, standard <code>journald</code> setups would read host kernel messages and generate gigabytes of logs, quickly filling up the device's internal storage:</p>
 <ul>

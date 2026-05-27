@@ -101,7 +101,6 @@
       font-family: var(--mono); font-size: 0.82rem;
       background: var(--bg3); padding: 0.15rem 0.4rem;
       border-radius: 4px; color: var(--accent2);
-      word-break: break-word; overflow-wrap: anywhere;
     }
     .sidebar-content pre {
       background: var(--bg2); border: 1px solid var(--border);
@@ -132,6 +131,11 @@
     }
     @media (max-width: 768px) {
       .copy-btn { opacity: 1; }
+      .sidebar-content a { word-break: break-word; }
+      .sidebar-content code { word-break: break-word; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .sidebar-content th { white-space: normal; word-break: break-word; }
+      .sidebar-content td { word-break: break-word; }
     }
     .sidebar-content ul, .sidebar-content ol {
       color: var(--muted); line-height: 1.7;
@@ -414,7 +418,11 @@
 <li><strong>Open the Containers Tab</strong>: Tap the middle icon in the bottom navigation bar.</li>
 <li><strong>Add a Container</strong>: Tap the <strong>"+"</strong> button at the bottom right.</li>
 <li><strong>Choose your Tarball</strong>: Select the downloaded <code>.tar.xz</code> or <code>.tar.gz</code> file.</li>
-<li><strong>Configuration Wizard</strong>:- <strong>Name</strong>: Give your container a friendly name.- <strong>Features</strong>: Toggle Hardware Access, IPv6, Network Isolation, Android storage integration, etc., according to your needs.- <strong>Container Type</strong>: We recommend <strong>Sparse Image</strong> for better performance and stability on Android’s f2fs storage, as well as to prevent weird SELinux/Keyring issues.</li>
+<li><strong>Configuration Wizard</strong>:<ul>
+<li><strong>Name</strong>: Give your container a friendly name.</li>
+<li><strong>Features</strong>: Toggle Hardware Access, IPv6, Network Isolation, Android storage integration, etc., according to your needs.</li>
+<li><strong>Container Type</strong>: We recommend <strong>Sparse Image</strong> for better performance and stability on Android’s f2fs storage, as well as to prevent weird SELinux/Keyring issues.</li>
+</ul></li>
 <li><strong>Installation</strong>: The app will extract the tarball and apply <strong>Post-Extraction Fixes</strong> automatically (DNS, Masking useless/dangerous services, and Safe Udev).</li>
 </ol>
 <h2 id="verification-settings">Verification & Settings</h2>

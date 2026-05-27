@@ -101,7 +101,6 @@
       font-family: var(--mono); font-size: 0.82rem;
       background: var(--bg3); padding: 0.15rem 0.4rem;
       border-radius: 4px; color: var(--accent2);
-      word-break: break-word; overflow-wrap: anywhere;
     }
     .sidebar-content pre {
       background: var(--bg2); border: 1px solid var(--border);
@@ -132,6 +131,11 @@
     }
     @media (max-width: 768px) {
       .copy-btn { opacity: 1; }
+      .sidebar-content a { word-break: break-word; }
+      .sidebar-content code { word-break: break-word; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .sidebar-content th { white-space: normal; word-break: break-word; }
+      .sidebar-content td { word-break: break-word; }
     }
     .sidebar-content ul, .sidebar-content ol {
       color: var(--muted); line-height: 1.7;
@@ -396,8 +400,23 @@
 <div class="callout callout-important"><strong class="callout-title">IMPORTANT</strong> This guide is specifically focused on <strong>Android devices</strong>. While Droidspaces also runs on Linux Desktop, these instructions address the unique networking, storage, and kernel requirements of the Android environment.</div>
 <h3 id="quick-navigation">Quick Navigation</h3>
 <ul>
-<li><a href="#1-setting-up-a-secure-mobile-server-tailscale--ufw--fail2ban" rel="noopener noreferrer">1. Setting Up a Secure "Mobile Server" (Tailscale + UFW + Fail2Ban)</a>  - <a href="#prerequisites" rel="noopener noreferrer">Prerequisites</a>  - <a href="#step-1-install-networking-tools--compatibility-layer" rel="noopener noreferrer">Step 1: Install Networking Tools & Compatibility Layer</a>  - <a href="#step-2-personal-user-setup--ssh-hardening" rel="noopener noreferrer">Step 2: Personal User Setup & SSH Hardening</a>  - <a href="#step-3-set-up-tailscale" rel="noopener noreferrer">Step 3: Set Up Tailscale</a>  - <a href="#step-4-secure-the-container-with-ufw-firewall" rel="noopener noreferrer">Step 4: Secure the Container with UFW (Firewall)</a>  - <a href="#step-5-add-brute-force-protection-with-fail2ban" rel="noopener noreferrer">Step 5: Add Brute-Force Protection with Fail2Ban</a>  </li>
-<li><a href="#2-running-docker-containers-nested-containerization" rel="noopener noreferrer">2. Running Docker Containers (Nested Containerization)</a>  - <a href="#prerequisites-1" rel="noopener noreferrer">Prerequisites</a>  - <a href="#step-1-ensure-nat-networking" rel="noopener noreferrer">Step 1: Ensure NAT Networking</a>  - <a href="#step-2-compatibility-layer-iptables-legacy" rel="noopener noreferrer">Step 2: Compatibility Layer (iptables-legacy)</a>  - <a href="#step-3-install-docker" rel="noopener noreferrer">Step 3: Install Docker</a>  - <a href="#step-4-non-root-user-setup" rel="noopener noreferrer">Step 4: Non-Root User Setup</a>  - <a href="#step-5-verify-installation" rel="noopener noreferrer">Step 5: Verify Installation</a>  - <a href="#last-resort-for-host-mode-or-legacy-kernels-old-kernels-only" rel="noopener noreferrer">"Last Resort" for Host Mode or Legacy Kernels (Old Kernels Only)</a>  </li>
+<li><a href="#1-setting-up-a-secure-mobile-server-tailscale--ufw--fail2ban" rel="noopener noreferrer">1. Setting Up a Secure "Mobile Server" (Tailscale + UFW + Fail2Ban)</a>  <ul>
+<li><a href="#prerequisites" rel="noopener noreferrer">Prerequisites</a>  </li>
+<li><a href="#step-1-install-networking-tools--compatibility-layer" rel="noopener noreferrer">Step 1: Install Networking Tools & Compatibility Layer</a>  </li>
+<li><a href="#step-2-personal-user-setup--ssh-hardening" rel="noopener noreferrer">Step 2: Personal User Setup & SSH Hardening</a>  </li>
+<li><a href="#step-3-set-up-tailscale" rel="noopener noreferrer">Step 3: Set Up Tailscale</a>  </li>
+<li><a href="#step-4-secure-the-container-with-ufw-firewall" rel="noopener noreferrer">Step 4: Secure the Container with UFW (Firewall)</a>  </li>
+<li><a href="#step-5-add-brute-force-protection-with-fail2ban" rel="noopener noreferrer">Step 5: Add Brute-Force Protection with Fail2Ban</a>  </li>
+</ul></li>
+<li><a href="#2-running-docker-containers-nested-containerization" rel="noopener noreferrer">2. Running Docker Containers (Nested Containerization)</a>  <ul>
+<li><a href="#prerequisites-1" rel="noopener noreferrer">Prerequisites</a>  </li>
+<li><a href="#step-1-ensure-nat-networking" rel="noopener noreferrer">Step 1: Ensure NAT Networking</a>  </li>
+<li><a href="#step-2-compatibility-layer-iptables-legacy" rel="noopener noreferrer">Step 2: Compatibility Layer (iptables-legacy)</a>  </li>
+<li><a href="#step-3-install-docker" rel="noopener noreferrer">Step 3: Install Docker</a>  </li>
+<li><a href="#step-4-non-root-user-setup" rel="noopener noreferrer">Step 4: Non-Root User Setup</a>  </li>
+<li><a href="#step-5-verify-installation" rel="noopener noreferrer">Step 5: Verify Installation</a>  </li>
+<li><a href="#last-resort-for-host-mode-or-legacy-kernels-old-kernels-only" rel="noopener noreferrer">"Last Resort" for Host Mode or Legacy Kernels (Old Kernels Only)</a>  </li>
+</ul></li>
 </ul>
 <hr>
 <h2 id="1-setting-up-a-secure-mobile-server-tailscale-ufw-fail2ban">1. Setting Up a Secure "Mobile Server" (Tailscale + UFW + Fail2Ban)</h2>
@@ -414,84 +433,41 @@
 <h3 id="step-1-install-networking-tools-compatibility-layer">Step 1: Install Networking Tools & Compatibility Layer</h3>
 <p>To handle firewall rules and network debugging, you first need to install the essential networking tools and ensure compatibility with the Android kernel.</p>
 <ol>
-<li><strong>Install tools</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt update && apt install -y net-tools iptables
-</code></pre></div></li>
-<li><strong>Switch to Legacy iptables</strong>:Modern Ubuntu/Debian versions use the <code>nftables</code> backend by default, which often fails in Droidspaces containers on Android kernels. You <strong>must</strong> switch to the legacy <code>iptables</code> backend to ensure your firewall works:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>update-alternatives --set iptables /usr/sbin/iptables-legacy
-update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-</code></pre></div></li>
+<li><strong>Install tools</strong>:<p>```bash</p><p>apt update && apt install -y net-tools iptables</p><p>```</p></li>
+<li><strong>Switch to Legacy iptables</strong>:<p>Modern Ubuntu/Debian versions use the <code>nftables</code> backend by default, which often fails in Droidspaces containers on Android kernels. You <strong>must</strong> switch to the legacy <code>iptables</code> backend to ensure your firewall works:</p><p>```bash</p><p>update-alternatives --set iptables /usr/sbin/iptables-legacy</p><p>update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy</p><p>```</p></li>
 </ol>
 <hr>
 <h3 id="step-2-personal-user-setup-ssh-hardening">Step 2: Personal User Setup & SSH Hardening</h3>
 <p>To maintain a secure server, creating a dedicated user with <code>sudo</code> privileges and disabling direct root access over SSH is best practice.</p>
 <ol>
-<li><strong>Reclaim UID 1000</strong>: Linux distributions usually assign UID <code>1000</code> to the first non-root user (like <code>ubuntu</code>). To use this ID for your personal user, you should first detect and completely remove any existing UID 1000:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code># Identify and delete the default user associated with UID 1000
-DEFAULT_USER=$(getent passwd 1000 | cut -d: -f 1)
-userdel -r "$DEFAULT_USER"
-groupdel "$DEFAULT_USER" 2>/dev/null
-</code></pre></div></li>
-<li><strong>Create your personal user as UID 1000</strong> (Replace <code>YOUR_USER</code> with your desired username):<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>useradd -m -u 1000 -s /bin/bash YOUR_USER
-usermod -aG sudo YOUR_USER
-passwd YOUR_USER
-</code></pre></div></li>
-<li><strong>Install OpenSSH Server</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt install -y openssh-server
-</code></pre></div></li>
-<li><strong>Disable Root Login</strong>:Edit <code>/etc/ssh/sshd_config</code> to prevent direct root access:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
-sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
-systemctl restart ssh
-</code></pre></div></li>
+<li><strong>Reclaim UID 1000</strong>: Linux distributions usually assign UID <code>1000</code> to the first non-root user (like <code>ubuntu</code>). To use this ID for your personal user, you should first detect and completely remove any existing UID 1000:<p>```bash</p><p># Identify and delete the default user associated with UID 1000</p><p>DEFAULT_USER=$(getent passwd 1000 | cut -d: -f 1)</p><p>userdel -r "$DEFAULT_USER"</p><p>groupdel "$DEFAULT_USER" 2>/dev/null</p><p>```</p></li>
+<li><strong>Create your personal user as UID 1000</strong> (Replace <code>YOUR_USER</code> with your desired username):<p>```bash</p><p>useradd -m -u 1000 -s /bin/bash YOUR_USER</p><p>usermod -aG sudo YOUR_USER</p><p>passwd YOUR_USER</p><p>```</p></li>
+<li><strong>Install OpenSSH Server</strong>:<p>```bash</p><p>apt install -y openssh-server</p><p>```</p></li>
+<li><strong>Disable Root Login</strong>:<p>Edit <code>/etc/ssh/sshd_config</code> to prevent direct root access:</p><p>```bash</p><p>sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config</p><p>sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config</p><p>systemctl restart ssh</p><p>```</p></li>
 </ol>
 <hr>
 <h3 id="step-3-set-up-tailscale">Step 3: Set Up Tailscale</h3>
 <p>Tailscale provides a secure P2P tunnel to your container, allowing you to access it from any device in your Tailnet without opening ports on your public router.</p>
 <ol>
-<li><strong>Install Tailscale</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>curl -fsSL https://tailscale.com/install.sh | sh
-</code></pre></div></li>
-<li><strong>Authenticate</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>tailscale up
-</code></pre></div></li>
+<li><strong>Install Tailscale</strong>:<p>```bash</p><p>curl -fsSL https://tailscale.com/install.sh | sh</p><p>```</p></li>
+<li><strong>Authenticate</strong>:<p>```bash</p><p>tailscale up</p><p>```</p></li>
 </ol>
 <hr>
 <h3 id="step-4-secure-the-container-with-ufw-firewall">Step 4: Secure the Container with UFW (Firewall)</h3>
 <p>Since Droidspaces NAT mode currently only supports IPv4, we should disable IPv6 in UFW to avoid initialization errors.</p>
 <ol>
-<li><strong>Disable IPv6 in UFW</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sed -i 's/IPV6=yes/IPV6=no/' /etc/default/ufw
-</code></pre></div></li>
-<li><strong>Set Default Policies</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw default deny incoming
-ufw default allow outgoing
-</code></pre></div></li>
-<li><strong>Whitelist the Tailscale Interface</strong>:Instead of whitelisting specific IP addresses, tell UFW to trust anything coming through your private Tailscale tunnel:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw allow in on tailscale0
-</code></pre></div></li>
-<li><strong>Enable the Firewall</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>ufw --force enable
-</code></pre></div></li>
+<li><strong>Disable IPv6 in UFW</strong>:<p>```bash</p><p>sed -i 's/IPV6=yes/IPV6=no/' /etc/default/ufw</p><p>```</p></li>
+<li><strong>Set Default Policies</strong>:<p>```bash</p><p>ufw default deny incoming</p><p>ufw default allow outgoing</p><p>```</p></li>
+<li><strong>Whitelist the Tailscale Interface</strong>:<p>Instead of whitelisting specific IP addresses, tell UFW to trust anything coming through your private Tailscale tunnel:</p><p>```bash</p><p>ufw allow in on tailscale0</p><p>```</p></li>
+<li><strong>Enable the Firewall</strong>:<p>```bash</p><p>ufw --force enable</p><p>```</p></li>
 </ol>
 <hr>
 <h3 id="step-5-add-brute-force-protection-with-fail2ban">Step 5: Add Brute-Force Protection with Fail2Ban</h3>
 <p>Fail2Ban monitors your system logs and automatically blocks IP addresses that show malicious behavior.</p>
 <ol>
-<li><strong>Install Fail2Ban</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>apt install -y fail2ban
-</code></pre></div></li>
-<li><strong>Create a Local Configuration</strong>:Create a persistent configuration file at <code>/etc/fail2ban/jail.local</code> to protect SSH and integrate it with UFW:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[DEFAULT]
-# Ban for 1 hour after 5 failed attempts within 10 minutes
-bantime  = 1h
-findtime = 10m
-maxretry = 5
-
-# Use UFW as the banning action
-banaction = ufw
-
-# Whitelist to prevent accidental lockouts:
-# 1. YOUR_TAILSCALE_IP: Your private tunnel address (e.g. 100.74.132.81)
-# 2. 172.28.0.0/16: The internal Droidspaces NAT bridge (covers all containers)
-# 3. YOUR_LAN_SUBNET: Your local Wi-Fi range if using port forwarding (e.g. if your LAN IP is 192.168.1.15, use 192.168.1.0/24)
-ignoreip = YOUR_TAILSCALE_IP 172.28.0.0/16 YOUR_LAN_SUBNET
-
-[sshd]
-enabled = true
-port    = ssh
-backend = systemd
-</code></pre></div></li>
-<li><strong>Start and Verify</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>systemctl restart fail2ban
-fail2ban-client status sshd
-</code></pre></div></li>
+<li><strong>Install Fail2Ban</strong>:<p>```bash</p><p>apt install -y fail2ban</p><p>```</p></li>
+<li><strong>Create a Local Configuration</strong>:<p>Create a persistent configuration file at <code>/etc/fail2ban/jail.local</code> to protect SSH and integrate it with UFW:</p><p>```ini</p><p>[DEFAULT]</p><p># Ban for 1 hour after 5 failed attempts within 10 minutes</p><p>bantime  = 1h</p><p>findtime = 10m</p><p>maxretry = 5</p><p># Use UFW as the banning action</p><p>banaction = ufw</p><p># Whitelist to prevent accidental lockouts:</p><p># 1. YOUR_TAILSCALE_IP: Your private tunnel address (e.g. 100.74.132.81)</p><p># 2. 172.28.0.0/16: The internal Droidspaces NAT bridge (covers all containers)</p><p># 3. YOUR_LAN_SUBNET: Your local Wi-Fi range if using port forwarding (e.g. if your LAN IP is 192.168.1.15, use 192.168.1.0/24)</p><p>ignoreip = YOUR_TAILSCALE_IP 172.28.0.0/16 YOUR_LAN_SUBNET</p><p>[sshd]</p><p>enabled = true</p><p>port    = ssh</p><p>backend = systemd</p><p>```</p></li>
+<li><strong>Start and Verify</strong>:<p>```bash</p><p>systemctl restart fail2ban</p><p>fail2ban-client status sshd</p><p>```</p></li>
 </ol>
 <p>Your "Mobile Server" is now officially a hardened fortress! Anyone attempting to access it from the open internet will be blocked, while you maintain full access through your private Tailscale network.</p>
 <hr>
@@ -501,7 +477,9 @@ fail2ban-client status sshd
 <ul>
 <li><strong>LTS Distribution</strong>: If your kernel version is less than <strong>5.x.x</strong>, it is highly recommended to use an LTS distribution like <strong>Ubuntu 24.04 LTS</strong> for the best compatibility.</li>
 <li><strong>Kernel Configuration</strong>: Ensure your kernel has the required Droidspaces options enabled. See <a href="./kernel-configuration.html#required-kernel-configuration" rel="noopener noreferrer">Required Kernel Configuration</a>.</li>
-<li><strong>Storage Mode</strong>: You <strong>must</strong> use either <strong>ext4 /data</strong> or <strong>rootfs.img mode</strong> (recommended).- <em>Why?</em> Android's default <code>f2fs</code> filesystem does not support the overlay features required by Docker's <code>overlay2</code> storage driver. Using a <code>rootfs.img</code> ensures you are running on a native ext4 filesystem.</li>
+<li><strong>Storage Mode</strong>: You <strong>must</strong> use either <strong>ext4 /data</strong> or <strong>rootfs.img mode</strong> (recommended).<ul>
+<li><em>Why?</em> Android's default <code>f2fs</code> filesystem does not support the overlay features required by Docker's <code>overlay2</code> storage driver. Using a <code>rootfs.img</code> ensures you are running on a native ext4 filesystem.</li>
+</ul></li>
 <li><strong>NAT Mode</strong>: <strong>Mandatory.</strong> Docker requires NAT networking to create its internal <code>docker0</code> bridge and provide internet access to nested containers.</li>
 </ul>
 <hr>

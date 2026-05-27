@@ -101,7 +101,6 @@
       font-family: var(--mono); font-size: 0.82rem;
       background: var(--bg3); padding: 0.15rem 0.4rem;
       border-radius: 4px; color: var(--accent2);
-      word-break: break-word; overflow-wrap: anywhere;
     }
     .sidebar-content pre {
       background: var(--bg2); border: 1px solid var(--border);
@@ -132,6 +131,11 @@
     }
     @media (max-width: 768px) {
       .copy-btn { opacity: 1; }
+      .sidebar-content a { word-break: break-word; }
+      .sidebar-content code { word-break: break-word; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .sidebar-content th { white-space: normal; word-break: break-word; }
+      .sidebar-content td { word-break: break-word; }
     }
     .sidebar-content ul, .sidebar-content ol {
       color: var(--muted); line-height: 1.7;
@@ -440,18 +444,11 @@ sudo tar -xvf rootfs.tar.xz -C my-container
 <h3 id="option-b-create-an-ext4-image-recommended">Option B: Create an ext4 Image (Recommended)</h3>
 <p>Encapsulating your rootfs in a single <code>.img</code> file provides better portability and avoids host filesystem conflicts.</p>
 <ol>
-<li><strong>Create a sparse image file</strong> (e.g., 16GB):<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>truncate -s 16G rootfs.img
-</code></pre></div></li>
-<li><strong>Format it as ext4</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>mkfs.ext4 -L Droidspaces rootfs.img
-</code></pre></div></li>
-<li><strong>Mount the image</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>mkdir -p rootfs_mount
-sudo mount rootfs.img rootfs_mount
-</code></pre></div></li>
-<li><strong>Extract the rootfs tarball to the mountpoint</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo tar -xvf /path/to/rootfs.tar.xz -C rootfs_mount
-</code></pre></div></li>
-<li><strong>Unmount and clean up</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo umount rootfs_mount
-rmdir rootfs_mount
-</code></pre></div></li>
+<li><strong>Create a sparse image file</strong> (e.g., 16GB):<p>```bash</p><p>truncate -s 16G rootfs.img</p><p>```</p></li>
+<li><strong>Format it as ext4</strong>:<p>```bash</p><p>mkfs.ext4 -L Droidspaces rootfs.img</p><p>```</p></li>
+<li><strong>Mount the image</strong>:<p>```bash</p><p>mkdir -p rootfs_mount</p><p>sudo mount rootfs.img rootfs_mount</p><p>```</p></li>
+<li><strong>Extract the rootfs tarball to the mountpoint</strong>:<p>```bash</p><p>sudo tar -xvf /path/to/rootfs.tar.xz -C rootfs_mount</p><p>```</p></li>
+<li><strong>Unmount and clean up</strong>:<p>```bash</p><p>sudo umount rootfs_mount</p><p>rmdir rootfs_mount</p><p>```</p></li>
 </ol>
 <p>Now you can boot it instantly using: <code>sudo droidspaces --name=my-container --rootfs-img=rootfs.img start</code></p>
 <h2 id="next-steps">Next Steps</h2>
