@@ -455,9 +455,12 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 <p><strong>Symptoms:</strong> Starting a container fails because a container with the same name is already running, or PID file conflicts occur.</p>
 <p><strong>Solution:</strong></p>
 <ol>
-<li>Check what's currently running:<p>```bash</p><p>droidspaces show</p><p>```</p></li>
-<li>If the container is listed but you believe it's actually stopped, clean up stale state:<p>```bash</p><p>droidspaces scan</p><p>```</p></li>
-<li>Use a different name:<p>```bash</p><p>droidspaces --name=mycontainer-2 --rootfs=/path/to/rootfs start</p><p>```</p></li>
+<li>Check what's currently running:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>droidspaces show
+</code></pre></div></li>
+<li>If the container is listed but you believe it's actually stopped, clean up stale state:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>droidspaces scan
+</code></pre></div></li>
+<li>Use a different name:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>droidspaces --name=mycontainer-2 --rootfs=/path/to/rootfs start
+</code></pre></div></li>
 </ol>
 <hr>
 <h2 id="systemd-hangs-on-older-kernels">Systemd Hangs on Older Kernels</h2>
@@ -489,7 +492,8 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 </ul>
 <p><strong>Solutions:</strong></p>
 <ul>
-<li><strong>Kernel Level Fix:</strong> If you are building your own kernel, the most effective solution is to disable this restriction entirely in your kernel configuration:<p>```bash</p><p>CONFIG_ANDROID_PARANOID_NETWORK=n</p><p>```</p></li>
+<li><strong>Kernel Level Fix:</strong> If you are building your own kernel, the most effective solution is to disable this restriction entirely in your kernel configuration:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>CONFIG_ANDROID_PARANOID_NETWORK=n
+</code></pre></div></li>
 <li><strong>Userland Fix:</strong> Use a rootfs that has been specifically patched to include these Android-specific GIDs in the group database. Our official rootfs tarballs come pre-configured to handle these permission requirements:<p><a href="https://github.com/ravindu644/Droidspaces-rootfs-builder/releases/latest" rel="noopener noreferrer">Droidspaces-rootfs-builder Releases</a></p></li>
 </ul>
 <hr>
@@ -498,7 +502,8 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 <p><strong>Cause:</strong> It seems some ISPs don’t like custom DNS setups. They completely block common DNS servers like <code>8.8.8.8</code> and <code>1.1.1.1</code>.</p>
 <p><strong>Solution:</strong> Use your ISP’s own DNS servers instead of custom ones.</p>
 <ol>
-<li>Run this command in an Android root shell to get the default DNS addresses your ISP assigned:<p>```shell</p><p>dumpsys connectivity | sed 's/}}/\n/g' | grep 'InterfaceName: wlan0' | grep -o 'DnsAddresses: \[[^]]<em>\]' | grep -o '/[0-9]</em>\.[0-9]<em>\.[0-9]</em>\.[0-9]*' | tr -d '/'</p><p>```</p></li>
+<li>Run this command in an Android root shell to get the default DNS addresses your ISP assigned:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>dumpsys connectivity | sed 's/}}/\n/g' | grep 'InterfaceName: wlan0' | grep -o 'DnsAddresses: \[[^]]*\]' | grep -o '/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*' | tr -d '/'
+</code></pre></div></li>
 <li>Add the results as DNS servers by editing the container configuration in the Droidspaces app.</li>
 </ol>
 <hr>
@@ -509,7 +514,8 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 <ul>
 <li>If you are using the host networking mode: Mask the <code>systemd-networkd</code> service inside the container to prevent it from starting:<ol>
 <li><strong>Via Android App</strong>: Go to <strong>Panel</strong> -> <strong>Container Name</strong> -> <strong>Manage</strong> (Systemd Menu) and find <code>systemd-networkd</code>, then tap on 3 dot icon next to the <code>systemd-networkd</code> card and select <strong>Mask</strong>.</li>
-<li><strong>Via Terminal</strong>:<p>```bash</p><p>sudo systemctl mask systemd-networkd</p><p>```</p></li>
+<li><strong>Via Terminal</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo systemctl mask systemd-networkd
+</code></pre></div></li>
 </ol></li>
 <li>Use isolated NAT mode for maximum networking freedom without any conflicts to the host's networking.</li>
 </ul>
@@ -528,9 +534,22 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 <p><strong>Solution:</strong> Create a service override to disable the conflicting sandboxing features:</p>
 <ol>
 <li><strong>Identify the service</strong>: e.g., <code>redis-server</code></li>
-<li><strong>Create the override</strong>:<p>```bash</p><p>sudo systemctl edit <service-name></p><p>```</p></li>
-<li><strong>Add these lines</strong> (to the empty space provided by the editor):<p>```ini</p><p>[Service]</p><p># Disable problematic security sandboxing</p><p>PrivateTmp=no</p><p>PrivateDevices=no</p><p>ProtectSystem=no</p><p>ProtectHome=no</p><p>RestrictNamespaces=no</p><p>MemoryDenyWriteExecute=no</p><p>NoNewPrivileges=no</p><p>CapabilityBoundingSet=</p><p>```</p></li>
-<li><strong>Reload and restart</strong>:<p>```bash</p><p>sudo systemctl daemon-reload</p><p>sudo systemctl restart <service-name></p><p>```</p></li>
+<li><strong>Create the override</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo systemctl edit <service-name>
+</code></pre></div></li>
+<li><strong>Add these lines</strong> (to the empty space provided by the editor):<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[Service]
+# Disable problematic security sandboxing
+PrivateTmp=no
+PrivateDevices=no
+ProtectSystem=no
+ProtectHome=no
+RestrictNamespaces=no
+MemoryDenyWriteExecute=no
+NoNewPrivileges=no
+CapabilityBoundingSet=
+</code></pre></div></li>
+<li><strong>Reload and restart</strong>:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo systemctl daemon-reload
+sudo systemctl restart <service-name>
+</code></pre></div></li>
 </ol>
 <hr>
 <h2 id="reclaim-storage">Reclaiming Storage (Sparse Image)</h2>
@@ -539,7 +558,8 @@ droidspaces --name=test --rootfs-img=/data/rootfs.img --volatile start
 <p><strong>Solution:</strong> Use <code>fstrim</code> inside the container to tell the kernel to "discard" unused blocks, which punches holes in the sparse image and reclaims space on the physical disk.</p>
 <ol>
 <li><strong>Start the container</strong> normally.</li>
-<li><strong>Run fstrim</strong> as root inside the container:<p>```bash</p><p>sudo fstrim -av</p><p>```</p></li>
+<li><strong>Run fstrim</strong> as root inside the container:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo fstrim -av
+</code></pre></div></li>
 <li>The command will report how many bytes were trimmed. You will notice the <code>rootfs.img</code> size on your Android storage has now decreased to match the actual data usage.</li>
 </ol>
 <hr>

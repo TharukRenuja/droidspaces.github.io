@@ -409,16 +409,21 @@
 </ul></li>
 <li><strong>Remove Backend Data</strong>:<ul>
 <li>Using a root file manager or a terminal (like Termux with root access), delete the following directory:</li>
-</ul><p>```bash</p><p>su -c "rm -rf /data/local/Droidspaces"</p><p>```</p></li>
+</ul><div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>su -c "rm -rf /data/local/Droidspaces"
+</code></pre></div></li>
 <li><strong>Uninstall APK</strong>: Uninstall the Droidspaces app from your Android settings or launcher.</li>
 <li><strong>Reboot</strong>: Disable or remove the Magisk/KernelSU <code>Droidspaces: Run-at-boot</code> module from your root manager, then reboot to clear any remaining Droidspaces stuff.</li>
 </ol>
 <hr>
 <h2 id="linux-cli">Linux (CLI)</h2>
 <ol>
-<li><strong>Stop Containers</strong>: Stop all running containers.<p>```bash</p><p>sudo droidspaces --name=web,db stop</p><p>```</p></li>
-<li><strong>Remove Filesystem</strong>: Delete the Droidspaces workspace directory. This will remove stale PID files, and logs.<p>```bash</p><p>sudo rm -rf /var/lib/Droidspaces</p><p>```</p></li>
-<li><strong>Remove Binary</strong>: Delete the <code>droidspaces</code> binary.<p>```bash</p><p>sudo rm /usr/local/bin/droidspaces</p><p># Or wherever you installed it</p><p>```</p></li>
+<li><strong>Stop Containers</strong>: Stop all running containers.<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo droidspaces --name=web,db stop
+</code></pre></div></li>
+<li><strong>Remove Filesystem</strong>: Delete the Droidspaces workspace directory. This will remove stale PID files, and logs.<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo rm -rf /var/lib/Droidspaces
+</code></pre></div></li>
+<li><strong>Remove Binary</strong>: Delete the <code>droidspaces</code> binary.<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo rm /usr/local/bin/droidspaces
+# Or wherever you installed it
+</code></pre></div></li>
 </ol>
 <div class="doc-nav-buttons"><a href="nix-nixos.html" class="doc-nav-btn doc-nav-prev">← Getting started with NixOS on Droidspaces</a></div>
       <p class="doc-copyright">&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>

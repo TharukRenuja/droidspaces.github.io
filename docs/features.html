@@ -649,47 +649,10 @@ droidspaces --name=ubuntu --rootfs-img=/path/to/rootfs.img --volatile start
 <div class="callout callout-tip"><strong class="callout-title">TIP</strong> <strong>Legacy Kernel Networking:</strong> When running Docker/Podman inside Droidspaces on legacy kernels, modern <code>nftables</code> may fail to route traffic. We recommend using Droidspaces' NAT mode and switching your container's networking stack to <code>iptables-legacy</code> and <code>ip6tables-legacy</code>.</div>
 <hr>
 <h2 id="android-specific-tuning">Android-Specific Tuning</h2>
-<p>To handle the "opinionated" nature of the Android Linux kernel and ensure container stability, network connectivity, and hardware access, several adjustments must be applied to the container's rootfs.</p>
-<div class="callout callout-note"><strong class="callout-title">NOTE</strong> The Droidspaces backend itself does not alter the rootfs. These changes are applied automatically when the user installs a new rootfs tarball using the Android App's built-in installer, or are pre-baked when using our official rootfs tarball from the <a href="https://github.com/Droidspaces/Droidspaces-rootfs-builder" rel="noopener noreferrer">Droidspaces rootfs-builder</a>.</div>
-<h3 id="1-android-network-hardware-groups">1. Android Network & Hardware Groups</h3>
-<p>Older Android kernels restrict network socket creation and direct hardware access to specific, hardcoded Group IDs (GIDs). Droidspaces maps and configures these groups inside the container's rootfs:</p>
-<ul>
-<li><strong>GID Mapping</strong>: Appends Android-specific groups to <code>/etc/group</code>:<ul>
-<li><code>aid_inet</code> (3003): Allows internet access.</li>
-<li><code>aid_net_raw</code> (3004): Allows raw socket creation (e.g., for <code>ping</code>).</li>
-<li><code>aid_net_admin</code> (3005): Allows network administration.</li>
-</ul></li>
-<li><strong>Permissions Assignment</strong>: Adds the container's <code>root</code> user to the <code>aid_inet</code>, <code>aid_net_raw</code>, <code>input</code>, <code>video</code>, and <code>tty</code> groups.</li>
-<li><strong>Package Manager Fix</strong>: Configures the Debian/Ubuntu <code>_apt</code> user to use <code>aid_inet</code> as its primary group, allowing packages to be installed and updated without permission errors.</li>
-<li><strong>User Automation</strong>: Modifies <code>/etc/adduser.conf</code> so any newly created user automatically inherits these groups.</li>
-</ul>
-<h3 id="2-udev-trigger-service-overrides">2. Udev Trigger & Service Overrides</h3>
-<p>Standard Linux distributions run <code>udevadm trigger</code> to coldplug hardware devices during boot. Triggering all subsystems simultaneously on an Android device can cause the kernel to panic.</p>
-<ul>
-<li><strong>Hardware Access Guards</strong>: Since udev services are only useful when hardware access is explicitly enabled, Droidspaces injects a drop-in <code>ExecCondition</code> override that prevents <code>systemd-udevd.service</code>, <code>systemd-udev-trigger.service</code>, and <code>systemd-udev-settle.service</code> from starting unless the container is configured with hardware access (<code>enable_hw_access=1</code>):<p>```ini</p><p>[Service]</p><p>ExecCondition=</p><p>ExecCondition=/bin/sh -c "grep -q 'enable_hw_access=1' /run/droidspaces/container.config"</p><p>```</p></li>
-<li><strong>Safe Udev Trigger</strong>: Instead of scanning everything, Droidspaces overrides the default <code>systemd-udev-trigger.service</code> using a drop-in configuration. If hardware access is enabled, this limits the trigger to a strictly defined, safe subset of subsystems:<p>```ini</p><p>[Service]</p><p>ExecStart=</p><p>ExecStart=-/usr/bin/udevadm trigger --subsystem-match=usb --subsystem-match=block --subsystem-match=input --subsystem-match=tty --subsystem-match=net</p><p>```</p><p>This allows the container to dynamically detect new USB drives, keyboards, and network interfaces without risking a host crash.</p></li>
-<li><strong>Read-Only Path Fix</strong>: Overrides <code>ConditionPathIsReadWrite</code> for all udev units to prevent failures in environments where key system directories are mounted read-only.</li>
-</ul>
-<h3 id="3-optimizing-systemd-logging">3. Optimizing systemd & Logging</h3>
-<p>The Android kernel is notoriously verbose. Without tuning, standard <code>journald</code> setups would read host kernel messages and generate gigabytes of logs, quickly filling up the device's internal storage:</p>
-<ul>
-<li><strong>Journald Adjustments</strong>: Disables reading kernel messages and system auditing (<code>ReadKMsg=no</code>, <code>Audit=no</code>) in <code>journald.conf</code> to prevent the container from hoarding system-wide kernel logs.</li>
-<li><strong>Volatile Storage</strong>: Configures systemd journal logs to store in-memory only (<code>Storage=volatile</code>) and enforces strict maximum size constraints (200MB) to prevent constant writes from wearing out and filling the device's physical internal flash storage.</li>
-<li><strong>Service Masking</strong>: Masks <code>systemd-networkd-wait-online.service</code> to prevent boot delays, and <code>systemd-journald-audit.socket</code> to prevent systemd deadlocks in old kernels like 4.9.</li>
-<li><strong>Power Key Handling</strong>: Instructs <code>systemd-logind</code> to ignore host power and suspend key events so the container does not attempt to handle host power state transitions.</li>
-</ul>
-<h3 id="4-nat-mode-network-guards">4. NAT Mode Network Guards</h3>
-<p>Under Host networking mode, running network managers like <code>NetworkManager</code> or <code>systemd-networkd</code> inside the container can conflict with the Android host's routing tables and break cellular/Wi-Fi connectivity.</p>
-<p>Droidspaces injects a drop-in <code>ExecCondition</code> override for standard network services (such as <code>NetworkManager.service</code>, <code>systemd-networkd.service</code>, <code>dhcpcd.service</code>, and <code>systemd-resolved.service</code>). This ensures these services only execute if the container is explicitly configured in NAT mode:</p>
-<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>[Service]
-ExecCondition=
-ExecCondition=/bin/sh -c "grep -q 'net_mode=nat' /run/droidspaces/container.config"
-</code></pre></div>
-<h3 id="5-storage-and-dhcp-configuration">5. Storage and DHCP Configuration</h3>
-<ul>
-<li><strong>systemd-networkd Config</strong>: Automatically configures <code>10-eth-dhcp.network</code> to enable DHCP and IPv6 route acceptance for any <code>eth*</code> interfaces.</li>
-<li><strong>Logrotate Limit</strong>: Enforces a <code>maxsize 50M</code> limit in <code>/etc/logrotate.conf</code> to prevent logs from consuming excessive disk space over time.</li>
-</ul>
+<p>Droidspaces includes several sophisticated subsystems designed specifically to handle the "opinionated" nature of the Android Linux kernel.</p>
+<h3 id="safe-udev-trigger">Safe Udev Trigger</h3>
+<p>Standard Linux distributions use <code>udevadm trigger</code> to "coldplug" hardware devices during boot. On many Android devices, triggering all devices simultaneously causes the kernel to deadlock or panic because Android's own hardware drivers (which are already running) do not expect another manager to re-trigger them.</p>
+<p><strong>The Solution</strong>: Droidspaces masks the standard udev trigger services and installs a <strong>Safe Udev Trigger</strong>. This service only triggers a strictly defined subset of subsystems (<code>usb</code>, <code>block</code>, <code>input</code>, <code>tty</code>) that are safe to re-scan. This enables the container to see new USB drives or keyboards without risking a system crash.</p>
 <div class="doc-nav-buttons"><a href="installation-linux.html" class="doc-nav-btn doc-nav-prev">← Linux Installation Guide</a><a href="gpu-acceleration.html" class="doc-nav-btn doc-nav-next">Droidspaces GPU Acceleration Guide →</a></div>
       <p class="doc-copyright">&copy; 2026 Droidspaces &nbsp;·&nbsp; <a href="https://github.com/ravindu644/Droidspaces-OSS/blob/main/LICENSE" rel="noopener noreferrer">GPLv3</a> &nbsp;·&nbsp; by <a href="https://github.com/ravindu644" rel="noopener noreferrer">ravindu644</a> and <a href="https://github.com/ravindu644/Droidspaces-OSS/graphs/contributors" rel="noopener noreferrer">contributors</a>
 </p>

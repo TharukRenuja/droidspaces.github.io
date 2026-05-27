@@ -79,6 +79,11 @@ def parse_list_block(lines, i, parent_indent=0):
             indent2 = len(next_line) - len(stripped2)
             if indent2 <= base_indent:
                 break
+            if stripped2.startswith('```'):
+                code_html, new_i = consume_code(lines, i)
+                nested_html_parts.append(code_html)
+                i = new_i
+                continue
             nested_block, new_i = parse_list_block(lines, i, parent_indent=indent2)
             if nested_block:
                 nested_html_parts.append(nested_block)

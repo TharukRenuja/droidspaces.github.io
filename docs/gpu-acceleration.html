@@ -400,12 +400,12 @@
 <p>This guide provides step-by-step instructions for enabling GPU acceleration in your Droidspaces containers. Whether you are running on an Android device or a Linux desktop, Droidspaces offers multiple ways to leverage hardware acceleration for a smooth graphical experience.</p>
 <h3 id="quick-navigation">Quick Navigation</h3>
 <ul>
-<li><a href="#android" rel="noopener noreferrer"><strong>Android Devices</strong></a>  <ul>
-<li><a href="#termux-x11" rel="noopener noreferrer">01. Termux-X11 + llvmpipe (Software Rendering)</a>  </li>
-<li><a href="#virgl" rel="noopener noreferrer">02. Termux-X11 + VirGL (Non-Qualcomm GPUs)</a>  </li>
-<li><a href="#turnip" rel="noopener noreferrer">03. Turnip (Native Qualcomm/Adreno)</a>  </li>
+<li><a href="#android" rel="noopener noreferrer"><strong>Android Devices</strong></a><ul>
+<li><a href="#termux-x11" rel="noopener noreferrer">01. Termux-X11 + llvmpipe (Software Rendering)</a></li>
+<li><a href="#virgl" rel="noopener noreferrer">02. Termux-X11 + VirGL (Non-Qualcomm GPUs)</a></li>
+<li><a href="#turnip" rel="noopener noreferrer">03. Turnip (Native Qualcomm/Adreno)</a></li>
 </ul></li>
-<li><a href="#linux" rel="noopener noreferrer"><strong>Linux Desktop (AMD/Intel)</strong></a>  </li>
+<li><a href="#linux" rel="noopener noreferrer"><strong>Linux Desktop (AMD/Intel)</strong></a></li>
 </ul>
 <hr>
 <a id="android"></a>
@@ -433,9 +433,11 @@
 <li><strong>Enable X11</strong>: Toggle <strong>Termux-X11</strong> to <code>ON</code> (<strong>Hardware Access</strong> is not required for software rendering).</li>
 <li><strong>Environment</strong>: Add <code>DISPLAY=:0</code> to the <strong>Environment Variables</strong> section and save.</li>
 <li><strong>Start Container</strong>: Launch your container.</li>
-<li><strong>Launch X Server</strong>: Open the Termux app and run:<p>```bash</p><p>termux-x11 :0</p><p>```</p></li>
+<li><strong>Launch X Server</strong>: Open the Termux app and run:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>termux-x11 :0
+</code></pre></div></li>
 <li><strong>Verify</strong>: Run <code>glxgears</code> inside the container terminal. The output will render in the Termux-X11 app.</li>
-<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<p>```bash</p><p>dbus-launch --exit-with-session startxfce4</p><p>```</p></li>
+<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>dbus-launch --exit-with-session startxfce4
+</code></pre></div></li>
 </ol>
 <hr>
 <a id="virgl"></a>
@@ -448,12 +450,17 @@
 </ul>
 <h4 id="implementation-steps">Implementation Steps</h4>
 <ol>
-<li><strong>Container Configuration</strong>: Enable <strong>Termux-X11</strong> in the Droidspaces container settings. Then, add the following to the <strong>Environment Variables</strong> section:<p>```bash</p><p>DISPLAY=:0</p><p>GALLIUM_DRIVER=virpipe</p><p>```</p></li>
+<li><strong>Container Configuration</strong>: Enable <strong>Termux-X11</strong> in the Droidspaces container settings. Then, add the following to the <strong>Environment Variables</strong> section:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>DISPLAY=:0
+GALLIUM_DRIVER=virpipe
+</code></pre></div></li>
 <li><strong>Start Container</strong>: Launch your container.</li>
-<li><strong>Start VirGL Server</strong>: Open Termux and run the server in the background:<p>```bash</p><p>virgl_test_server_android &</p><p>```</p></li>
-<li><strong>Start X Server</strong>: In Termux, run:<p>```bash</p><p>termux-x11 :0</p><p>```</p></li>
+<li><strong>Start VirGL Server</strong>: Open Termux and run the server in the background:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>virgl_test_server_android &
+</code></pre></div></li>
+<li><strong>Start X Server</strong>: In Termux, run:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>termux-x11 :0
+</code></pre></div></li>
 <li><strong>Verify Acceleration</strong>: Run <code>glxinfo -B</code> and look for "VirGL" in the renderer string.</li>
-<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<p>```bash</p><p>dbus-launch --exit-with-session startxfce4</p><p>```</p></li>
+<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>dbus-launch --exit-with-session startxfce4
+</code></pre></div></li>
 </ol>
 <div class="callout callout-tip"><strong class="callout-title">TIP</strong> <strong>If the renderer fails to initialize,</strong> try starting the VirGL server with the Vulkan backend:
 <code>virgl_test_server_android --angle-vulkan &</code></div>
@@ -475,8 +482,10 @@
 <li>Start the container via Droidspaces.</li>
 <li>Open Termux and run <code>termux-x11 :0</code></li>
 </ul></li>
-<li><strong>Permission Management (Non-Root Users)</strong>:<p>If you are using a non-root user, you must grant them access to the GPU device nodes:</p><p>```bash</p><p>sudo usermod -aG droidspaces-gpu <your_username></p><p>```</p></li>
-<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<p>```bash</p><p>dbus-launch --exit-with-session startxfce4</p><p>```</p></li>
+<li><strong>Permission Management (Non-Root Users)</strong>:<p>If you are using a non-root user, you must grant them access to the GPU device nodes:</p><div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>sudo usermod -aG droidspaces-gpu <your_username>
+</code></pre></div></li>
+<li><strong>Start Desktop Environment</strong>: To launch the full XFCE desktop (if installed), run:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>dbus-launch --exit-with-session startxfce4
+</code></pre></div></li>
 </ol>
 <div class="callout callout-tip"><strong class="callout-title">TIP</strong> <strong>If you encounter any problems related to DRI3,</strong> try editing <code>/data/adb/modules/droidspaces/etc/droidspaces.te</code> and uncommenting the line:
 <code>allow untrusted_app_27 droidspacesd fd use</code></div>
@@ -492,8 +501,10 @@
 <h4 id="implementation-steps">Implementation Steps</h4>
 <ol>
 <li><strong>Enable Hardware Access</strong>: Ensure the <strong>Hardware Access</strong> toggle is enabled in your container configuration (or use the <code>--hw-access</code> CLI flag).</li>
-<li><strong>Xhost Permission</strong>: On your host machine, allow the container to connect to your X server:<p>```bash</p><p>xhost +local:</p><p>```</p></li>
-<li><strong>Set Display Variable</strong>: Add the host's <code>DISPLAY</code> number to the container's environment (usually <code>:0</code>):<p>```bash</p><p>echo "DISPLAY=:0" >> /etc/environment</p><p>```</p></li>
+<li><strong>Xhost Permission</strong>: On your host machine, allow the container to connect to your X server:<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>xhost +local:
+</code></pre></div></li>
+<li><strong>Set Display Variable</strong>: Add the host's <code>DISPLAY</code> number to the container's environment (usually <code>:0</code>):<div class="code-block"><button class="copy-btn" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button><pre><code>echo "DISPLAY=:0" >> /etc/environment
+</code></pre></div></li>
 <li><strong>Run Applications</strong>: GUI applications launched from the container will render natively with full hardware acceleration.</li>
 </ol>
 <div class="doc-nav-buttons"><a href="features.html" class="doc-nav-btn doc-nav-prev">← Feature Deep Dives</a><a href="kernel-configuration.html" class="doc-nav-btn doc-nav-next">Kernel Configuration Guide →</a></div>
